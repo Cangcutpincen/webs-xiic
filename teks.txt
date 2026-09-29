@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portal Resmi XII C | Cloud MySQL Connected v6.5</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+<style>
+.glass {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+}
+.dark .glass {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.admin-glass {
+    background: rgba(6, 78, 59, 0.92);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 2px solid rgba(52, 211, 153, 0.6);
+    box-shadow: 0 0 50px rgba(16, 185, 129, 0.4);
+}
+.discord-modal {
+    background: #111214;
+    color: #dbdee1;
+    border: 1px solid #2b2d31;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+.magic-sparkle {
+    position: absolute;
+    pointer-events: none;
+    animation: sparkle 3s ease-in-out infinite;
+}
+.animated-banner-1 {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: bannerWave 12s ease infinite;
+}
+.animated-banner-2 {
+    background: linear-gradient(-45deg, #6366f1, #a855f7, #ec4899, #3b82f6);
+    background-size: 400% 400%;
+    animation: bannerWave 10s ease infinite;
+}
+.animated-banner-3 {
+    background: linear-gradient(-45deg, #10b981, #06b6d4, #6366f1, #8b5cf6);
+    background-size: 400% 400%;
+    animation: bannerWave 8s ease infinite;
+}
+.frame-cosmic {
+    box-shadow: 0 0 20px #8b5cf6, inset 0 0 15px #6366f1;
+    border: 3px solid #c084fc;
+}
+.frame-neon {
+    box-shadow: 0 0 25px #ec4899, inset 0 0 15px #f43f5e;
+    border: 3px solid #fb7185;
+}
+.frame-cyber {
+    box-shadow: 0 0 25px #10b981, inset 0 0 15px #34d399;
+    border: 3px solid #6ee7b7;
+}
+input, select, textarea {
+    font-size: 16px !important;
+}
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+</style>
+</head>
+<body class="bg-slate-50 dark:bg-darker text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-slate-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="scrollToSection('home')">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white font-extrabold text-xl shadow-lg animate-pulse-glow group-hover:scale-105 transition">
+                    12C
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-400 bg-clip-text text-transparent flex items-center">
+                        XII C Space <i class="fa-solid fa-wand-magic-sparkles text-amber-400 text-xs ml-2 animate-bounce"></i>
+                    </span>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium tracking-wide">Portal Akademik • Cloud MySQL</p>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                <button onclick="scrollToSection('home')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Beranda</button>
+                <button onclick="scrollToSection('schedule')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Jadwal</button>
+                <button onclick="scrollToSection('students')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Anggota</button>
+                <button onclick="scrollToSection('homework')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Tugas</button>
+                <button onclick="scrollToSection('shop')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition flex items-center"><i class="fa-solid fa-store mr-1.5 text-indigo-500"></i>Shop</button>
+                <button onclick="scrollToSection('announcements')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Pengumuman</button>
+                <button onclick="scrollToSection('gallery')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Galeri</button>
+
+                <div id="nav-auth-slot" class="relative ml-2">
+                    <!-- Injected via JS -->
+                </div>
+            </nav>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 hover:bg-slate-300 dark:hover:bg-slate-700 transition" title="Ganti Tema">
+                    <i id="theme-icon" class="fa-solid fa-moon text-slate-700 dark:text-yellow-400 text-sm"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 hover:bg-slate-300 dark:hover:bg-slate-700 transition lg:hidden" title="Menu Bar">
+                    <i class="fa-solid fa-bars text-lg text-slate-700 dark:text-slate-200"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" onclick="if(event.target === this) toggleMobileMenu()" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden transition-opacity duration-300 lg:hidden">
+        <div class="absolute right-0 top-0 h-full w-80 glass bg-white/95 dark:bg-slate-900/95 p-6 shadow-2xl flex flex-col justify-between border-l border-slate-200 dark:border-slate-800 overflow-y-auto">
+            <div>
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold">12C</div>
+                        <span class="font-bold text-lg">Menu XII C</span>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+                <div class="space-y-2 text-sm font-semibold pb-6">
+                    <button onclick="mobileNavClick('home')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-house w-6 text-brand-500"></i>Beranda</button>
+                    <button onclick="mobileNavClick('schedule')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-calendar-days w-6 text-brand-500"></i>Jadwal Pelajaran</button>
+                    <button onclick="mobileNavClick('students')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-users w-6 text-brand-500"></i>Anggota & Struktur</button>
+                    <button onclick="mobileNavClick('homework')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-book-open w-6 text-brand-500"></i>Tugas & PR</button>
+                    <button onclick="mobileNavClick('shop')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-store w-6 text-indigo-500"></i>Shop & Boost</button>
+                    <button onclick="mobileNavClick('announcements')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-bullhorn w-6 text-brand-500"></i>Pengumuman</button>
+                    <button onclick="mobileNavClick('gallery')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-images w-6 text-brand-500"></i>Galeri Foto</button>
+                </div>
+            </div>
+            <div id="mobile-auth-slot" class="pt-6 border-t border-slate-200 dark:border-slate-800 mb-6">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <main id="frontend-view" class="flex-grow">
+        <section id="home" class="relative overflow-hidden pt-24 pb-36 lg:pt-36 lg:pb-48 flex items-center justify-center">
+            <div id="canvas-container"></div>
+            <div class="absolute top-1/4 left-1/6 text-indigo-400 text-xl magic-sparkle" style="animation-delay: 0s;">✨</div>
+            <div class="absolute top-1/3 right-1/5 text-purple-400 text-2xl magic-sparkle" style="animation-delay: 1s;">⭐</div>
+            <div class="absolute bottom-1/4 left-1/3 text-brand-500 text-lg magic-sparkle" style="animation-delay: 2s;">✨</div>
+
+            <div class="relative z-10 max-w-5xl mx-auto px-4 text-center animate-float-slow">
+                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-600 dark:text-indigo-400 mb-6 border border-brand-500/20 backdrop-blur-md shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-brand-600 animate-ping mr-2"></span> Terhubung Cloud MySQL • Kelas XII C
+                </span>
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight animate-neon-pulse">
+                    Solid, Kreatif, <span class="bg-gradient-to-r from-brand-600 via-indigo-500 to-purple-500 bg-clip-text text-transparent drop-shadow-sm">Inovatif</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-10 font-normal leading-relaxed">
+                    Portal resmi kelas XII C terintegrasi penuh dengan database cloud Railway, dompet digital, & admin backend eksklusif.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="scrollToSection('schedule')" class="px-8 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-semibold shadow-lg shadow-brand-500/30 transition transform hover:-translate-y-1 flex items-center">
+                        Cek Jadwal <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                    <button onclick="scrollToSection('students')" class="px-8 py-3.5 rounded-2xl glass hover:bg-white/90 dark:hover:bg-slate-800 font-semibold transition transform hover:-translate-y-1 border border-brand-500/30 text-brand-600 dark:text-indigo-400 flex items-center">
+                        <i class="fa-solid fa-users mr-2"></i>Lihat Anggota
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Announcements Section -->
+        <section id="announcements" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Informasi Terkini</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Pengumuman Kelas</h2>
+                </div>
+                <div id="frontend-announcement-btn" class="mt-4 md:mt-0 hidden">
+                    <button onclick="openAddAnnouncementModal()" class="px-4 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-semibold hover:bg-brand-700 transition shadow-md">
+                        <i class="fa-solid fa-plus mr-2"></i>Buat Pengumuman Baru
+                    </button>
+                </div>
+            </div>
+
+            <div id="announcements-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Populated via JS -->
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule" class="py-24 bg-slate-100/60 dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Rutinitas Belajar</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Jadwal Pelajaran XII C</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2">Pilih hari untuk melihat daftar mata pelajaran.</p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button onclick="switchDay('Senin')" id="tab-Senin" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition bg-brand-600 text-white shadow-md">Senin</button>
+                    <button onclick="switchDay('Selasa')" id="tab-Selasa" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Selasa</button>
+                    <button onclick="switchDay('Rabu')" id="tab-Rabu" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Rabu</button>
+                    <button onclick="switchDay('Kamis')" id="tab-Kamis" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Kamis</button>
+                    <button onclick="switchDay('Jumat')" id="tab-Jumat" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Jumat</button>
+                    <button onclick="switchDay('Sabtu')" id="tab-Sabtu" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Sabtu</button>
+                </div>
+
+                <div id="schedule-container" class="max-w-3xl mx-auto space-y-4"></div>
+            </div>
+        </section>
+
+        <!-- Students Directory -->
+        <section id="students" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Keluarga Besar</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Daftar Anggota & Struktur Kelas</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Klik kartu member untuk melihat profil lengkap bergaya Discord.</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex gap-3">
+                    <input type="text" id="search-student" oninput="filterStudents()" placeholder="Cari nama atau jabatan..." class="px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-64">
+                </div>
+            </div>
+
+            <div id="students-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </section>
+
+        <!-- Homework Section -->
+        <section id="homework" class="py-24 bg-slate-100/60 dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div>
+                        <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Tanggung Jawab</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Tugas & PR Kelas</h2>
+                    </div>
+                    <div id="frontend-homework-btn" class="mt-4 md:mt-0 hidden">
+                        <button onclick="openAddHomeworkModal()" class="px-4 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-semibold hover:bg-brand-700 transition shadow-md">
+                            <i class="fa-solid fa-plus mr-2"></i>Tambah Tugas Baru
+                        </button>
+                    </div>
+                </div>
+
+                <div id="homework-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </section>
+
+        <!-- Shop & Boost Section -->
+        <section id="shop" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-indigo-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider"><i class="fa-solid fa-store mr-1.5"></i>Merchandise & Profile Boost</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">XII C Official Shop & Nitro Boost</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-2">Beli merchandise atau unlock banner & frame profil menggunakan saldo dompet Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div class="glass p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <img src="https://placehold.co/600x400/6366f1/ffffff?text=Hoodie+XII+C" class="w-full h-40 object-cover rounded-2xl mb-4 shadow-md">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-brand-500/10 text-brand-600 dark:text-indigo-400">Terlaris</span>
+                        <h3 class="font-bold text-base mt-2">Hoodie Angkatan XII C</h3>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-brand-600 text-sm">Rp 165.000</span>
+                        <button onclick="buyMerch('Hoodie Angkatan XII C', 165000)" class="px-3 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-semibold shadow transition">Beli</button>
+                    </div>
+                </div>
+                <div class="glass p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <img src="https://placehold.co/600x400/4f46e5/ffffff?text=Tumbler+Termos" class="w-full h-40 object-cover rounded-2xl mb-4 shadow-md">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-600">Stainless Steel</span>
+                        <h3 class="font-bold text-base mt-2">Tumbler Termos XII C</h3>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-indigo-600 text-sm">Rp 85.000</span>
+                        <button onclick="buyMerch('Tumbler Termos XII C', 85000)" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow transition">Beli</button>
+                    </div>
+                </div>
+                <div class="discord-modal p-6 rounded-3xl border border-purple-500/40 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                    <div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300">Boost</span>
+                        <h3 class="font-bold text-base text-white mt-2">Banner Animasi Premium</h3>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-purple-400 text-sm">Rp 50.000</span>
+                        <button onclick="buyBoostItem('banner', 50000)" class="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow transition">Unlock</button>
+                    </div>
+                </div>
+                <div class="discord-modal p-6 rounded-3xl border border-pink-500/40 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                    <div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-pink-500/20 text-pink-300">Boost</span>
+                        <h3 class="font-bold text-base text-white mt-2">Bingkai Avatar (Decoration)</h3>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-pink-400 text-sm">Rp 40.000</span>
+                        <button onclick="buyBoostItem('frame', 40000)" class="px-3 py-2 bg-pink-600 hover:bg-pink-500 text-white rounded-xl text-xs font-semibold shadow transition">Unlock</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Momen Kebersamaan</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Galeri XII C</h2>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group relative overflow-hidden rounded-3xl shadow-lg h-72 bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                    <img src="https://placehold.co/600x400/6366f1/ffffff?text=Seminar+Karier" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                        <h3 class="text-white font-bold text-lg">Seminar Persiapan PTN</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-3xl shadow-lg h-72 bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                    <img src="https://placehold.co/600x400/4f46e5/ffffff?text=Pameran+TIK" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                        <h3 class="text-white font-bold text-lg">Pameran Proyek TIK</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-3xl shadow-lg h-72 bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                    <img src="https://placehold.co/600x400/312e81/ffffff?text=Makrab+XII+C" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                        <h3 class="text-white font-bold text-lg">Malam Keakraban Kelas</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Backend View -->
+    <main id="backend-view" class="flex-grow hidden py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-emerald-500/30">
+            <div>
+                <div class="flex items-center space-x-3">
+                    <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-lg animate-pulse">
+                        <i class="fa-solid fa-shield-halved mr-1.5"></i>ZYEN SUPREME MASTER ADMIN PANEL v6.5
+                    </span>
+                    <span class="text-xs text-emerald-300 font-mono">Cloud MySQL Connected • Root Zyen Access</span>
+                </div>
+                <h1 class="text-3xl font-extrabold mt-2 text-emerald-400 tracking-wide drop-shadow">Zyen Cyber Administration Center</h1>
+            </div>
+            <div>
+                <button onclick="switchView('frontend')" class="px-5 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/40 border border-emerald-500/50 text-emerald-300 font-semibold text-sm transition flex items-center shadow-lg">
+                    <i class="fa-solid fa-arrow-left mr-2"></i>Kembali ke Frontend
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <span class="text-xs font-semibold text-emerald-300">Total Akun Terdaftar</span>
+                <h3 class="text-4xl font-extrabold text-white mt-2" id="be-stat-students">0</h3>
+            </div>
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <span class="text-xs font-semibold text-emerald-300">Total Saldo Kas & Dompet</span>
+                <h3 class="text-3xl font-extrabold text-white mt-2" id="be-stat-saldo">Rp 0</h3>
+            </div>
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <span class="text-xs font-semibold text-emerald-300">Database Status</span>
+                <h3 class="text-2xl font-bold text-white mt-2">MySQL Active</h3>
+            </div>
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <span class="text-xs font-semibold text-emerald-300">Security</span>
+                <h3 class="text-2xl font-bold text-emerald-300 mt-2">Encrypted</h3>
+            </div>
+        </div>
+
+        <div class="admin-glass p-8 rounded-3xl shadow-2xl mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white flex items-center"><i class="fa-solid fa-user-shield text-emerald-400 mr-2.5 text-2xl"></i>Manajemen Akun & Saldo MySQL</h3>
+                </div>
+                <button onclick="openAddStudentModal()" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow-xl transition flex items-center shrink-0">
+                    <i class="fa-solid fa-user-plus mr-2 text-sm"></i>Tambah Anggota Baru
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead>
+                        <tr class="border-b border-emerald-500/30 text-xs text-emerald-300 uppercase">
+                            <th class="py-3 px-4">Nama Siswa</th>
+                            <th class="py-3 px-4">Username</th>
+                            <th class="py-3 px-4">Role</th>
+                            <th class="py-3 px-4">Saldo</th>
+                            <th class="py-3 px-4">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-students-table"></tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-slate-200 dark:border-slate-800 py-10 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white font-bold text-sm shadow">12C</div>
+                <div>
+                    <span class="font-bold text-sm">Kelas XII C Official Portal</span>
+                    <p class="text-xs text-slate-500">Cloud Database Terintegrasi (2026/2027)</p>
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 text-center">&copy; 2026/2027 XII C.</p>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-md p-8 rounded-3xl shadow-2xl relative">
+            <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="text-2xl font-bold mb-4 text-center">Portal Login XII C</h3>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Username</label>
+                    <input type="text" id="login-username" required class="w-full px-4 py-3 rounded-xl glass border border-slate-700 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Password</label>
+                    <input type="password" id="login-password" required class="w-full px-4 py-3 rounded-xl glass border border-slate-700 outline-none">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow">Masuk ke Sistem</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Discord-Style Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md hidden p-4">
+        <div class="w-full max-w-md discord-modal rounded-3xl shadow-2xl relative overflow-hidden">
+            <div id="profile-banner" class="h-32 w-full animated-banner-1 relative">
+                <button onclick="closeProfileModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="px-6 pb-6 relative">
+                <div class="flex justify-between items-end -mt-14 mb-4">
+                    <div class="relative">
+                        <img id="profile-modal-avatar" src="" class="w-24 h-24 rounded-full object-cover border-4 border-[#111214] bg-[#111214]">
+                        <div id="profile-avatar-frame" class="absolute -inset-1 rounded-full pointer-events-none"></div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h3 id="profile-modal-name" class="text-xl font-bold text-white">Nama</h3>
+                    <p class="text-xs text-[#949ba4]">@<span id="profile-modal-username">username</span></p>
+                    <p id="profile-modal-role" class="text-xs text-[#949ba4] font-medium mt-0.5">Role</p>
+                </div>
+                <div class="bg-[#2b2d31] p-3.5 rounded-2xl mb-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-[#949ba4]">Saldo Dompet</span>
+                        <h4 id="profile-modal-saldo" class="text-xl font-extrabold text-emerald-400">Rp 0</h4>
+                    </div>
+                </div>
+                <button onclick="logout()" class="w-full py-2.5 bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 rounded-xl font-bold text-xs">Keluar Akun</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-28 opacity-0 transition-all duration-300 glass px-6 py-4 rounded-2xl shadow-2xl border border-slate-700 flex items-center space-x-3 bg-slate-900/95">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-xl"></i>
+        <div>
+            <p id="toast-title" class="text-xs font-bold text-slate-400">Notifikasi</p>
+            <span id="toast-message" class="text-sm font-semibold text-white">Berhasil!</span>
+        </div>
+    </div>
+
+<script>
+/* ===== RAILWAY BACKEND API URL ===== */
+const API_URL = "https://xiic-backend-production.up.railway.app/api";
+
+let currentUser = null;
+let currentActiveView = 'frontend';
+let studentsData = [];
+
+let announcementsData = [
+    { id: 1, title: 'Pembagian Kelompok Ujian Praktik', tag: 'Akademik', date: '28 Sep 2026', desc: 'Daftar kelompok ujian praktik semester ganjil sudah dapat dicek.' },
+    { id: 2, title: 'Iuran Kas Kelas Bulanan', tag: 'Bendahara', date: '25 Sep 2026', desc: 'Pembayaran kas dikoordinasikan oleh Bendahara.' }
+];
+
+let scheduleData = {
+    'Senin': [
+        { time: '07.00 - 08.30', subject: 'Upacara Bendera', teacher: 'Ibu Dra. Hj. Siti Aminah' },
+        { time: '08.30 - 10.00', subject: 'Matematika Tingkat Lanjut', teacher: 'Bapak Drs. Budi Santoso' }
+    ],
+    'Selasa': [{ time: '07.00 - 08.30', subject: 'Fisika Peminatan', teacher: 'Bapak Ir. Joko Widodo' }],
+    'Rabu': [{ time: '07.00 - 08.30', subject: 'Biologi Peminatan', teacher: 'Ibu Prof. Dr. Ani' }],
+    'Kamis': [{ time: '07.00 - 08.30', subject: 'Informatika', teacher: 'Bapak Reza' }],
+    'Jumat': [{ time: '07.00 - 08.00', subject: 'Literasi Pagi', teacher: 'Wali Kelas' }],
+    'Sabtu': [{ time: '07.30 - 10.00', subject: 'Ekstrakurikuler', teacher: 'Pembina' }]
+};
+
+let homeworkData = [
+    { id: 1, subject: 'Matematika', title: 'Latihan Soal Turunan', deadline: 'Kamis', status: 'Pending' }
+];
+
+// Fetch students from Railway Database
+async function fetchStudents() {
+    try {
+        const res = await fetch(`${API_URL}/students`);
+        if (res.ok) {
+            studentsData = await res.json();
+            renderStudents();
+            if (currentActiveView === 'backend') renderBackendManagement();
+        }
+    } catch (err) {
+        console.error("Gagal terhubung ke database Railway:", err);
+    }
+}
+
+// 3D Three.js
+function init3D() {
+    const container = document.getElementById('canvas-container');
+    if (!container) return;
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    const geometry = new THREE.TorusKnotGeometry(8.5, 2.6, 120, 16);
+    const material = new THREE.MeshStandardMaterial({ color: 0x6366f1, wireframe: true, roughness: 0.15, metalness: 0.85 });
+    const torusKnot = new THREE.Mesh(geometry, material);
+    scene.add(torusKnot);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+    scene.add(ambientLight);
+    camera.position.z = 28;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        torusKnot.rotation.x += 0.003;
+        torusKnot.rotation.y += 0.005;
+        renderer.render(scene, camera);
+    }
+    animate();
+}
+
+function switchView(view) {
+    currentActiveView = view;
+    const frontendView = document.getElementById('frontend-view');
+    const backendView = document.getElementById('backend-view');
+
+    if (view === 'backend') {
+        if (!currentUser || currentUser.role !== 'Administrator') {
+            showToast('Akses Ditolak', 'Hanya Admin Zyen yang dapat mengakses panel backend.', 'error');
+            return openLoginModal();
+        }
+        frontendView.classList.add('hidden');
+        backendView.classList.remove('hidden');
+        renderBackendManagement();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+        backendView.classList.add('hidden');
+        frontendView.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function toggleMobileMenu() {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+}
+
+function mobileNavClick(sectionId) {
+    toggleMobileMenu();
+    scrollToSection(sectionId);
+}
+
+function renderAnnouncements() {
+    const grid = document.getElementById('announcements-grid');
+    if (!grid) return;
+    grid.innerHTML = announcementsData.map(ann => `
+        <div class="glass p-6 rounded-3xl shadow-md border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+            <div>
+                <span class="px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-600">${ann.tag}</span>
+                <h3 class="text-lg font-bold mt-3 mb-2">${ann.title}</h3>
+                <p class="text-slate-600 dark:text-slate-300 text-sm">${ann.desc}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderStudents() {
+    const grid = document.getElementById('students-grid');
+    if (!grid) return;
+    const valid = studentsData.filter(s => s.role !== 'Administrator' && s.role !== 'Pengunjung');
+    grid.innerHTML = valid.map(stu => `
+        <div class="glass p-6 rounded-3xl text-center border border-slate-200 dark:border-slate-800 shadow-sm">
+            <img src="${stu.avatar || 'https://placehold.co/150x150/6366f1/ffffff?text=US'}" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md mb-4">
+            <h3 class="font-bold text-base">${stu.name}</h3>
+            <span class="inline-block mt-1 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-600">${stu.role}</span>
+            <p class="text-xs text-slate-500 mt-2 italic">"${stu.status || 'Semangat!'}"</p>
+        </div>
+    `).join('');
+}
+
+function renderBackendManagement() {
+    document.getElementById('be-stat-students').textContent = studentsData.length;
+    const totalSaldo = studentsData.reduce((acc, curr) => acc + (parseFloat(curr.saldo) || 0), 0);
+    document.getElementById('be-stat-saldo').textContent = 'Rp ' + totalSaldo.toLocaleString('id-ID');
+
+    const table = document.getElementById('admin-students-table');
+    if (table) {
+        table.innerHTML = studentsData.map(stu => `
+            <tr class="border-b border-emerald-500/20">
+                <td class="py-3 px-4 font-bold text-white">${stu.name}</td>
+                <td class="py-3 px-4 font-mono text-xs text-emerald-300">${stu.username}</td>
+                <td class="py-3 px-4">${stu.role}</td>
+                <td class="py-3 px-4 font-extrabold text-emerald-400">Rp ${(parseFloat(stu.saldo) || 0).toLocaleString('id-ID')}</td>
+                <td class="py-3 px-4 text-xs text-emerald-300">Live MySQL</td>
+            </tr>
+        `).join('');
+    }
+}
+
+function switchDay(day) {
+    ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'].forEach(d => {
+        const btn = document.getElementById(`tab-${d}`);
+        if (btn) btn.className = d === day ? 'px-5 py-2.5 rounded-xl font-semibold text-sm transition bg-brand-600 text-white shadow-md' : 'px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800';
+    });
+    const container = document.getElementById('schedule-container');
+    if (!container) return;
+    container.innerHTML = (scheduleData[day] || []).map(item => `
+        <div class="glass p-5 rounded-2xl flex items-center justify-between">
+            <div>
+                <h4 class="font-bold text-base">${item.subject}</h4>
+                <p class="text-xs text-slate-500">${item.teacher}</p>
+            </div>
+            <span class="px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-xs font-semibold">${item.time}</span>
+        </div>
+    `).join('');
+}
+
+function renderHomework() {
+    const grid = document.getElementById('homework-grid');
+    if (!grid) return;
+    grid.innerHTML = homeworkData.map(hw => `
+        <div class="glass p-6 rounded-3xl flex flex-col justify-between">
+            <div>
+                <span class="text-xs font-bold text-brand-600 uppercase">${hw.subject}</span>
+                <h3 class="font-bold text-lg mt-2">${hw.title}</h3>
+            </div>
+            <p class="text-xs text-slate-500 mt-4">Deadline: ${hw.deadline}</p>
+        </div>
+    `).join('');
+}
+
+function openLoginModal() { document.getElementById('login-modal').classList.remove('hidden'); }
+function closeLoginModal() { document.getElementById('login-modal').classList.add('hidden'); }
+
+// REAL LOGIN FROM MYSQL RAILWAY
+async function handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value.trim();
+
+    try {
+        const res = await fetch(`${API_URL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+            return showToast('Login Gagal', data.message || 'Username atau password salah!', 'error');
+        }
+
+        currentUser = data.user;
+        currentUser.saldo = parseFloat(currentUser.saldo) || 0;
+        closeLoginModal();
+        updateAuthUI();
+        openProfileModal();
+        showToast('Login Berhasil', `Selamat datang, ${currentUser.name}!`, 'success');
+    } catch (err) {
+        showToast('Koneksi Gagal', 'Tidak dapat terhubung ke database Railway.', 'error');
+    }
+}
+
+function logout() {
+    currentUser = null;
+    if (currentActiveView === 'backend') switchView('frontend');
+    updateAuthUI();
+    showToast('Keluar', 'Berhasil keluar dari akun.', 'success');
+}
+
+function openProfileModal() {
+    if (!currentUser) return openLoginModal();
+    document.getElementById('profile-modal-avatar').src = currentUser.avatar || 'https://placehold.co/150x150/6366f1/ffffff?text=US';
+    document.getElementById('profile-modal-name').textContent = currentUser.name;
+    document.getElementById('profile-modal-username').textContent = currentUser.username;
+    document.getElementById('profile-modal-role').textContent = currentUser.role;
+    document.getElementById('profile-modal-saldo').textContent = 'Rp ' + (currentUser.saldo || 0).toLocaleString('id-ID');
+    document.getElementById('profile-modal').classList.remove('hidden');
+}
+function closeProfileModal() { document.getElementById('profile-modal').classList.add('hidden'); }
+
+function updateAuthUI() {
+    const slot = document.getElementById('nav-auth-slot');
+    const mobileSlot = document.getElementById('mobile-auth-slot');
+    const annBtn = document.getElementById('frontend-announcement-btn');
+    const hwBtn = document.getElementById('frontend-homework-btn');
+
+    if (currentUser) {
+        slot.innerHTML = `
+            <button onclick="openProfileModal()" class="flex items-center space-x-2 px-3 py-2 rounded-xl glass hover:bg-slate-200">
+                <img src="${currentUser.avatar || 'https://placehold.co/150x150/6366f1/ffffff?text=US'}" class="w-8 h-8 rounded-full object-cover">
+                <span class="text-xs font-bold">${currentUser.name}</span>
+            </button>
+        `;
+        mobileSlot.innerHTML = `<button onclick="openProfileModal()" class="w-full py-3 bg-brand-600 text-white rounded-xl text-sm font-bold">Profil Saya</button>`;
+        if (currentUser.role === 'Administrator') {
+            annBtn.classList.remove('hidden');
+            hwBtn.classList.remove('hidden');
+        }
+    } else {
+        slot.innerHTML = `<button onclick="openLoginModal()" class="px-5 py-2 rounded-xl bg-brand-600 text-white font-semibold text-sm shadow">Login</button>`;
+        mobileSlot.innerHTML = `<button onclick="openLoginModal()" class="w-full py-3 bg-brand-600 text-white rounded-xl text-sm font-bold">Login</button>`;
+        annBtn.classList.add('hidden');
+        hwBtn.classList.add('hidden');
+    }
+    renderAnnouncements();
+    renderHomework();
+    fetchStudents();
+}
+
+function showToast(title, message, type = 'success') {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-title').textContent = title;
+    document.getElementById('toast-message').textContent = message;
+    document.getElementById('toast-icon').className = type === 'error' ? 'fa-solid fa-circle-exclamation text-rose-500 text-xl' : 'fa-solid fa-circle-check text-emerald-500 text-xl';
+    toast.classList.remove('translate-y-28', 'opacity-0');
+    setTimeout(() => toast.classList.add('translate-y-28', 'opacity-0'), 3500);
+}
+
+function toggleDarkMode() {
+    document.documentElement.classList.toggle('dark');
+}
+
+function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+window.onload = function() {
+    init3D();
+    switchDay('Senin');
+    fetchStudents();
+    updateAuthUI();
+};
+</script>
+</body>
+</html>

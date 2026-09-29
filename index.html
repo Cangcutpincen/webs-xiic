@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Portal Resmi XII C | Discord-Style 3D Profile v6.5</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+<style>
+/* ===== INLINE style.css ===== */
+.glass {
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .admin-glass {
+            background: rgba(6, 78, 59, 0.92);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 2px solid rgba(52, 211, 153, 0.6);
+            box-shadow: 0 0 50px rgba(16, 185, 129, 0.4);
+        }
+        .discord-modal {
+            background: #111214;
+            color: #dbdee1;
+            border: 1px solid #2b2d31;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .magic-sparkle {
+            position: absolute;
+            pointer-events: none;
+            animation: sparkle 3s ease-in-out infinite;
+        }
+        .animated-banner-1 {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: bannerWave 12s ease infinite;
+        }
+        .animated-banner-2 {
+            background: linear-gradient(-45deg, #6366f1, #a855f7, #ec4899, #3b82f6);
+            background-size: 400% 400%;
+            animation: bannerWave 10s ease infinite;
+        }
+        .animated-banner-3 {
+            background: linear-gradient(-45deg, #10b981, #06b6d4, #6366f1, #8b5cf6);
+            background-size: 400% 400%;
+            animation: bannerWave 8s ease infinite;
+        }
+        .frame-cosmic {
+            box-shadow: 0 0 20px #8b5cf6, inset 0 0 15px #6366f1;
+            border: 3px solid #c084fc;
+        }
+        .frame-neon {
+            box-shadow: 0 0 25px #ec4899, inset 0 0 15px #f43f5e;
+            border: 3px solid #fb7185;
+        }
+        .frame-cyber {
+            box-shadow: 0 0 25px #10b981, inset 0 0 15px #34d399;
+            border: 3px solid #6ee7b7;
+        }
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090d16;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+</style>
+
+</head>
+<body class="bg-slate-50 dark:bg-darker text-slate-800 dark:text-slate-100 font-sans transition-colors duration-300 min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 glass border-b border-slate-200 dark:border-slate-800 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="scrollToSection('home')">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white font-extrabold text-xl shadow-lg animate-pulse-glow group-hover:scale-105 transition">
+                    12C
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-400 bg-clip-text text-transparent flex items-center">
+                        XII C Space <i class="fa-solid fa-wand-magic-sparkles text-amber-400 text-xs ml-2 animate-bounce"></i>
+                    </span>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium tracking-wide">Portal Akademik 2026/2027</p>
+                </div>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
+                <button onclick="scrollToSection('home')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Beranda</button>
+                <button onclick="scrollToSection('schedule')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Jadwal</button>
+                <button onclick="scrollToSection('students')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Anggota</button>
+                <button onclick="scrollToSection('homework')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Tugas</button>
+                <button onclick="scrollToSection('shop')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition flex items-center"><i class="fa-solid fa-store mr-1.5 text-indigo-500"></i>Shop</button>
+                <button onclick="scrollToSection('announcements')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Pengumuman</button>
+                <button onclick="scrollToSection('gallery')" class="px-3.5 py-2 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800/60 transition">Galeri</button>
+
+                <!-- Dynamic Auth Menu Slot -->
+                <div id="nav-auth-slot" class="relative ml-2">
+                    <!-- Injected via JavaScript -->
+                </div>
+            </nav>
+
+            <!-- Actions (Theme Toggle & 3-Lines Hamburger Menu) -->
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDarkMode()" class="p-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 hover:bg-slate-300 dark:hover:bg-slate-700 transition" title="Ganti Tema">
+                    <i id="theme-icon" class="fa-solid fa-moon text-slate-700 dark:text-yellow-400 text-sm"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-slate-200/70 dark:bg-slate-800/70 hover:bg-slate-300 dark:hover:bg-slate-700 transition lg:hidden" title="Menu Bar">
+                    <i class="fa-solid fa-bars text-lg text-slate-700 dark:text-slate-200"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer Menu (with background click to close & isolated scrolling) -->
+    <div id="mobile-menu" onclick="if(event.target === this) toggleMobileMenu()" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm hidden transition-opacity duration-300 lg:hidden">
+        <div class="absolute right-0 top-0 h-full w-80 glass bg-white/95 dark:bg-slate-900/95 p-6 shadow-2xl flex flex-col justify-between border-l border-slate-200 dark:border-slate-800 overflow-y-auto">
+            <div>
+                <div class="flex items-center justify-between mb-8">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold">12C</div>
+                        <span class="font-bold text-lg">Menu XII C</span>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+                <div class="space-y-2 text-sm font-semibold pb-6">
+                    <button onclick="mobileNavClick('home')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-house w-6 text-brand-500"></i>Beranda</button>
+                    <button onclick="mobileNavClick('schedule')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-calendar-days w-6 text-brand-500"></i>Jadwal Pelajaran</button>
+                    <button onclick="mobileNavClick('students')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-users w-6 text-brand-500"></i>Anggota & Struktur</button>
+                    <button onclick="mobileNavClick('homework')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-book-open w-6 text-brand-500"></i>Tugas & PR</button>
+                    <button onclick="mobileNavClick('shop')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-store w-6 text-indigo-500"></i>Shop & Boost</button>
+                    <button onclick="mobileNavClick('announcements')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-bullhorn w-6 text-brand-500"></i>Pengumuman</button>
+                    <button onclick="mobileNavClick('gallery')" class="w-full text-left px-4 py-3 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 transition flex items-center"><i class="fa-solid fa-images w-6 text-brand-500"></i>Galeri Foto</button>
+                </div>
+            </div>
+            <div id="mobile-auth-slot" class="pt-6 border-t border-slate-200 dark:border-slate-800 mb-6">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <main id="frontend-view" class="flex-grow">
+        <!-- Hero Section with 3D Canvas & Anime Magic Sparkles -->
+        <section id="home" class="relative overflow-hidden pt-24 pb-36 lg:pt-36 lg:pb-48 flex items-center justify-center">
+            <div id="canvas-container"></div>
+            <div class="absolute top-1/4 left-1/6 text-indigo-400 text-xl magic-sparkle" style="animation-delay: 0s;">✨</div>
+            <div class="absolute top-1/3 right-1/5 text-purple-400 text-2xl magic-sparkle" style="animation-delay: 1s;">⭐</div>
+            <div class="absolute bottom-1/4 left-1/3 text-brand-500 text-lg magic-sparkle" style="animation-delay: 2s;">✨</div>
+
+            <div class="relative z-10 max-w-5xl mx-auto px-4 text-center animate-float-slow">
+                <span class="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-600 dark:text-indigo-400 mb-6 border border-brand-500/20 backdrop-blur-md shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-brand-600 animate-ping mr-2"></span> Tahun Ajaran 2026/2027 • Kelas XII C
+                </span>
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-tight animate-neon-pulse">
+                    Solid, Kreatif, <span class="bg-gradient-to-r from-brand-600 via-indigo-500 to-purple-500 bg-clip-text text-transparent drop-shadow-sm">Inovatif</span>
+                </h1>
+                <p class="max-w-2xl mx-auto text-lg sm:text-xl text-slate-600 dark:text-slate-300 mb-10 font-normal leading-relaxed">
+                    Portal resmi kelas XII C terintegrasi sistem keamanan 2FA PIN, dompet digital, transfer antar siswa, Discord-style boost banners & frames, & backend admin eksklusif.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="scrollToSection('schedule')" class="px-8 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-semibold shadow-lg shadow-brand-500/30 transition transform hover:-translate-y-1 flex items-center">
+                        Cek Jadwal <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </button>
+                    <button onclick="scrollToSection('students')" class="px-8 py-3.5 rounded-2xl glass hover:bg-white/90 dark:hover:bg-slate-800 font-semibold transition transform hover:-translate-y-1 border border-brand-500/30 text-brand-600 dark:text-indigo-400 flex items-center">
+                        <i class="fa-solid fa-users mr-2"></i>Lihat Anggota
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Announcements Section -->
+        <section id="announcements" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Informasi Terkini</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Pengumuman Kelas</h2>
+                </div>
+                <div id="frontend-announcement-btn" class="mt-4 md:mt-0 hidden">
+                    <button onclick="openAddAnnouncementModal()" class="px-4 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-semibold hover:bg-brand-700 transition shadow-md">
+                        <i class="fa-solid fa-plus mr-2"></i>Buat Pengumuman Baru
+                    </button>
+                </div>
+            </div>
+
+            <div id="announcements-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Populated via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Schedule Section (Senin s.d. Sabtu) -->
+        <section id="schedule" class="py-24 bg-slate-100/60 dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Rutinitas Belajar</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Jadwal Pelajaran XII C</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2">Pilih hari (Senin s.d. Sabtu) untuk melihat daftar mata pelajaran.</p>
+                </div>
+
+                <!-- Day Tabs (Senin - Sabtu) -->
+                <div class="flex flex-wrap justify-center gap-2 mb-8">
+                    <button onclick="switchDay('Senin')" id="tab-Senin" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition bg-brand-600 text-white shadow-md">Senin</button>
+                    <button onclick="switchDay('Selasa')" id="tab-Selasa" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Selasa</button>
+                    <button onclick="switchDay('Rabu')" id="tab-Rabu" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Rabu</button>
+                    <button onclick="switchDay('Kamis')" id="tab-Kamis" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Kamis</button>
+                    <button onclick="switchDay('Jumat')" id="tab-Jumat" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Jumat</button>
+                    <button onclick="switchDay('Sabtu')" id="tab-Sabtu" class="px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800">Sabtu</button>
+                </div>
+
+                <!-- Schedule Card List -->
+                <div id="schedule-container" class="max-w-3xl mx-auto space-y-4">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Students Directory (Clickable Member Cards - Admin Zyen hidden, Balances private) -->
+        <section id="students" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Keluarga Besar 2026/2027</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Daftar Anggota & Struktur Kelas</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Klik pada kartu member untuk melihat profil lengkap bergaya Discord & tautan media sosial.</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex gap-3">
+                    <input type="text" id="search-student" oninput="filterStudents()" placeholder="Cari nama atau jabatan..." class="px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-64">
+                </div>
+            </div>
+
+            <div id="students-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Populated via JavaScript -->
+            </div>
+        </section>
+
+        <!-- Homework Section -->
+        <section id="homework" class="py-24 bg-slate-100/60 dark:bg-slate-900/60 border-y border-slate-200 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                    <div>
+                        <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Tanggung Jawab</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Tugas & PR Kelas</h2>
+                    </div>
+                    <div id="frontend-homework-btn" class="mt-4 md:mt-0 hidden">
+                        <button onclick="openAddHomeworkModal()" class="px-4 py-2.5 bg-brand-600 text-white rounded-xl text-sm font-semibold hover:bg-brand-700 transition shadow-md">
+                            <i class="fa-solid fa-plus mr-2"></i>Tambah Tugas Baru
+                        </button>
+                    </div>
+                </div>
+
+                <div id="homework-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Populated via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop & Boost Section -->
+        <section id="shop" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-indigo-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider"><i class="fa-solid fa-store mr-1.5"></i>Merchandise & Profile Boost</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">XII C Official Shop & Nitro Boost</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-2">Beli merchandise eksklusif atau unlock banner & frame profil animasi menggunakan saldo dompet Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <!-- Merch 1 -->
+                <div class="glass p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <img src="https://placehold.co/600x400/6366f1/ffffff?text=Hoodie+XII+C" class="w-full h-40 object-cover rounded-2xl mb-4 shadow-md">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-brand-500/10 text-brand-600 dark:text-indigo-400">Merch Terlaris</span>
+                        <h3 class="font-bold text-base mt-2">Hoodie Angkatan XII C</h3>
+                        <p class="text-xs text-slate-500 mt-1">Bahan fleece tebal berkualitas tinggi dengan bordir logo eksklusif.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-brand-600 text-sm">Rp 165.000</span>
+                        <button onclick="buyMerch('Hoodie Angkatan XII C', 165000)" class="px-3 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-semibold shadow transition">Beli</button>
+                    </div>
+                </div>
+                <!-- Merch 2 -->
+                <div class="glass p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <img src="https://placehold.co/600x400/4f46e5/ffffff?text=Tumbler+Termos" class="w-full h-40 object-cover rounded-2xl mb-4 shadow-md">
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-600">Stainless Steel</span>
+                        <h3 class="font-bold text-base mt-2">Tumbler Termos XII C</h3>
+                        <p class="text-xs text-slate-500 mt-1">Menjaga suhu air panas/dingin hingga 12 jam.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-indigo-600 text-sm">Rp 85.000</span>
+                        <button onclick="buyMerch('Tumbler Termos XII C', 85000)" class="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow transition">Beli</button>
+                    </div>
+                </div>
+                <!-- Boost Item 1 -->
+                <div class="discord-modal p-6 rounded-3xl border border-purple-500/40 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-purple-500/10 text-7xl"><i class="fa-solid fa-bolt"></i></div>
+                    <div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/20 text-purple-300">Boost / Nitro</span>
+                        <h3 class="font-bold text-base text-white mt-2">Banner Animasi Premium</h3>
+                        <p class="text-xs text-slate-400 mt-1">Unlock banner bergerak keren (Sunset Wave & Cosmic) untuk profil Anda.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-purple-400 text-sm">Rp 50.000</span>
+                        <button onclick="buyBoostItem('banner', 50000)" class="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow transition">Unlock</button>
+                    </div>
+                </div>
+                <!-- Boost Item 2 -->
+                <div class="discord-modal p-6 rounded-3xl border border-pink-500/40 shadow-xl flex flex-col justify-between relative overflow-hidden">
+                    <div class="absolute -right-6 -bottom-6 text-pink-500/10 text-7xl"><i class="fa-solid fa-crown"></i></div>
+                    <div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-pink-500/20 text-pink-300">Boost / Nitro</span>
+                        <h3 class="font-bold text-base text-white mt-2">Bingkai Avatar (Decoration)</h3>
+                        <p class="text-xs text-slate-400 mt-1">Unlock bingkai avatar bercahaya (Cosmic, Neon, Cyber) yang elegan.</p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                        <span class="font-extrabold text-pink-400 text-sm">Rp 40.000</span>
+                        <button onclick="buyBoostItem('frame', 40000)" class="px-3 py-2 bg-pink-600 hover:bg-pink-500 text-white rounded-xl text-xs font-semibold shadow transition">Unlock</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-brand-600 dark:text-indigo-400 font-semibold text-sm uppercase tracking-wider">Momen Kebersamaan</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-1">Galeri XII C</h2>
+                <p class="text-slate-500 dark:text-slate-400 mt-2">Kumpulan foto dokumentasi kegiatan belajar, classmeeting, dan kebersamaan tahun ajaran 2026/2027.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group relative overflow-hidden rounded-3xl shadow-lg h-72 bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                    <img src="https://placehold.co/600x400/6366f1/ffffff?text=Seminar+Karier" alt="Seminar" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                        <span class="text-xs font-semibold text-indigo-400 mb-1">Juli 2026</span>
+                        <h3 class="text-white font-bold text-lg">Seminar Persiapan Masuk PTN</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-3xl shadow-lg h-72 bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                    <img src="https://placehold.co/600x400/4f46e5/ffffff?text=Pameran+TIK" alt="TIK" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                        <span class="text-xs font-semibold text-indigo-400 mb-1">Agustus 2026</span>
+                        <h3 class="text-white font-bold text-lg">Pameran Proyek TIK</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-3xl shadow-lg h-72 bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                    <img src="https://placehold.co/600x400/312e81/ffffff?text=Makrab+XII+C" alt="Makrab" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
+                        <span class="text-xs font-semibold text-indigo-400 mb-1">September 2026</span>
+                        <h3 class="text-white font-bold text-lg">Malam Keakraban Kelas</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="backend-view" class="flex-grow hidden py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-6 border-b border-emerald-500/30">
+            <div>
+                <div class="flex items-center space-x-3">
+                    <span class="px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-lg animate-pulse">
+                        <i class="fa-solid fa-shield-halved mr-1.5"></i>ZYEN SUPREME MASTER ADMIN PANEL v6.5
+                    </span>
+                    <span class="text-xs text-emerald-300 font-mono">Encrypted Cluster • Root Zyen Access</span>
+                </div>
+                <h1 class="text-3xl font-extrabold mt-2 text-emerald-400 tracking-wide drop-shadow">Zyen Cyber Administration Center</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="switchView('frontend')" class="px-5 py-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/40 border border-emerald-500/50 text-emerald-300 font-semibold text-sm transition flex items-center shadow-lg">
+                    <i class="fa-solid fa-arrow-left mr-2"></i>Kembali ke Frontend
+                </button>
+            </div>
+        </div>
+
+        <!-- Exclusive Cyber Admin Statistics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-emerald-500/10 text-7xl font-bold"><i class="fa-solid fa-users"></i></div>
+                <span class="text-xs font-semibold text-emerald-300">Total Akun Terdaftar</span>
+                <h3 class="text-4xl font-extrabold text-white mt-2" id="be-stat-students">9</h3>
+                <p class="text-xs text-emerald-400 mt-2 font-medium flex items-center"><i class="fa-solid fa-circle-check mr-1"></i>All Roles Verified</p>
+            </div>
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-emerald-500/10 text-7xl font-bold"><i class="fa-solid fa-wallet"></i></div>
+                <span class="text-xs font-semibold text-emerald-300">Total Saldo Kas & Dompet</span>
+                <h3 class="text-3xl font-extrabold text-white mt-2" id="be-stat-saldo">Rp 0</h3>
+                <p class="text-xs text-emerald-400 mt-2 font-medium flex items-center"><i class="fa-solid fa-chart-line mr-1"></i>Keuangan Aktif</p>
+            </div>
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-emerald-500/10 text-7xl font-bold"><i class="fa-solid fa-microchip"></i></div>
+                <span class="text-xs font-semibold text-emerald-300">Zyen Server Load / Latency</span>
+                <h3 class="text-3xl font-extrabold text-white mt-2">4.2%</h3>
+                <p class="text-xs text-emerald-400 mt-2 font-medium">Ultra Fast (6ms)</p>
+            </div>
+            <div class="admin-glass p-6 rounded-3xl shadow-xl relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-emerald-500/10 text-7xl font-bold"><i class="fa-solid fa-terminal"></i></div>
+                <span class="text-xs font-semibold text-emerald-300">Master Root Security</span>
+                <h3 class="text-2xl font-bold text-emerald-300 mt-2">PIN & 2FA Enforced</h3>
+                <p class="text-xs text-emerald-400 mt-2 font-medium">Admin Zyen: Full Privileges</p>
+            </div>
+        </div>
+
+        <!-- Role & Account Management Section (Admin Exclusive) -->
+        <div class="admin-glass p-8 rounded-3xl shadow-2xl mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h3 class="text-xl font-bold text-white flex items-center"><i class="fa-solid fa-user-shield text-emerald-400 mr-2.5 text-2xl"></i>Manajemen Akun, Role & Saldo Anggota</h3>
+                    <p class="text-xs text-emerald-300 mt-1">Zyen dapat mengubah jabatan, mengatur saldo, atau menambahkan siswa baru yang langsung bisa login ke sistem.</p>
+                </div>
+                <button onclick="openAddStudentModal()" class="px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow-xl transition flex items-center shrink-0">
+                    <i class="fa-solid fa-user-plus mr-2 text-sm"></i>Tambah Anggota / Akun Baru
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm whitespace-nowrap">
+                    <thead>
+                        <tr class="border-b border-emerald-500/30 text-xs text-emerald-300 uppercase">
+                            <th class="py-3 px-4">Nama Siswa / Staff</th>
+                            <th class="py-3 px-4">Username Login</th>
+                            <th class="py-3 px-4">Jabatan / Role</th>
+                            <th class="py-3 px-4">Saldo Dompet</th>
+                            <th class="py-3 px-4">Aksi Master Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-students-table">
+                        <!-- Populated via JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Backend Management Grid: Announcements & Homework -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="admin-glass p-8 rounded-3xl shadow-2xl">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white flex items-center"><i class="fa-solid fa-bullhorn text-emerald-400 mr-2.5"></i>Manajemen Pengumuman</h3>
+                    <button onclick="openAddAnnouncementModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow transition">
+                        <i class="fa-solid fa-plus mr-1"></i>Tambah
+                    </button>
+                </div>
+                <div id="backend-announcements-list" class="space-y-3 max-h-80 overflow-y-auto pr-2">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <div class="admin-glass p-8 rounded-3xl shadow-2xl">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-white flex items-center"><i class="fa-solid fa-book text-emerald-400 mr-2.5"></i>Manajemen Tugas & PR</h3>
+                    <button onclick="openAddHomeworkModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow transition">
+                        <i class="fa-solid fa-plus mr-1"></i>Tambah
+                    </button>
+                </div>
+                <div id="backend-homework-list" class="space-y-3 max-h-80 overflow-y-auto pr-2">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="glass border-t border-slate-200 dark:border-slate-800 py-10 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white font-bold text-sm shadow">
+                    12C
+                </div>
+                <div>
+                    <span class="font-bold text-sm">Kelas XII C Official Portal & Backend</span>
+                    <p class="text-xs text-slate-500">SMA Negeri Unggulan Nusantara (2026/2027)</p>
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 dark:text-slate-400 text-center">
+                &copy; 2026/2027 XII C. Sistem Akses Berbasis Peran & Dompet Digital Terintegrasi.
+            </p>
+            <div class="flex space-x-4">
+                <a href="#home" class="text-slate-500 hover:text-brand-600 transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                <a href="#home" class="text-slate-500 hover:text-brand-600 transition"><i class="fa-brands fa-discord text-lg"></i></a>
+                <a href="#home" class="text-slate-500 hover:text-brand-600 transition"><i class="fa-brands fa-tiktok text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Unified Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md hidden transition-all duration-300 p-4">
+        <div class="glass w-full max-w-md max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-slate-200 dark:border-slate-700 my-auto">
+            <button onclick="closeLoginModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-500 text-white flex items-center justify-center mx-auto mb-3 shadow-lg animate-pulse-glow">
+                    <i class="fa-solid fa-lock text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold">Portal Login XII C</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Masukkan username login dan password Anda.</p>
+            </div>
+
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Username Login</label>
+                    <input type="text" id="login-username" required placeholder="Contoh: zyen atau aditya..." class="w-full px-4 py-3 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Password</label>
+                    <input type="password" id="login-password" required placeholder="Masukkan password..." class="w-full px-4 py-3 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-base sm:text-sm shadow-lg transition">
+                    Masuk ke Sistem
+                </button>
+            </form>
+
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-center">
+                <p class="text-xs text-slate-500">Belum punya akun?</p>
+                <button onclick="closeLoginModal(); openRegisterModal();" class="mt-1 text-xs font-bold text-brand-600 dark:text-indigo-400 hover:underline">
+                    Daftar Akun Baru di Sini <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN 2FA Verification Modal -->
+    <div id="pin-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-sm max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-brand-500/50 text-center my-auto">
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-500 flex items-center justify-center mx-auto mb-4 shadow-lg animate-bounce">
+                <i class="fa-solid fa-shield-keyhole text-2xl"></i>
+            </div>
+            <h3 class="text-xl font-bold">Verifikasi Keamanan PIN</h3>
+            <p class="text-xs text-slate-400 mt-1 mb-6">Akun ini mengaktifkan keamanan 2FA. Masukkan 4-6 digit PIN Anda.</p>
+            <form onsubmit="verifyPin(event)" class="space-y-4">
+                <input type="password" id="login-pin-input" maxlength="6" required placeholder="••••" class="w-full px-4 py-3 rounded-xl glass border border-slate-300 dark:border-slate-700 text-center tracking-widest text-2xl font-bold focus:ring-2 focus:ring-brand-500 outline-none">
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm shadow transition">
+                    Konfirmasi PIN & Buka Akun
+                </button>
+            </form>
+            <button onclick="closePinModal()" class="mt-4 text-xs text-slate-500 hover:underline">Batalkan</button>
+        </div>
+    </div>
+
+    <!-- Register Modal (Public Sign Up creates a Guest account not yet in student directory) -->
+    <div id="register-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md hidden transition-all duration-300 p-4">
+        <div class="glass w-full max-w-md max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-slate-200 dark:border-slate-700 my-auto">
+            <button onclick="closeRegisterModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-500 text-white flex items-center justify-center mx-auto mb-3 shadow-lg">
+                    <i class="fa-solid fa-user-plus text-xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold">Daftar Akun XII C</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Buat akun baru. Hubungi Admin agar akun Anda diberi role kelas.</p>
+            </div>
+
+            <form onsubmit="handleRegister(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Nama Tampilan (Display Name)</label>
+                    <input type="text" id="reg-name" required placeholder="Contoh: Rian Hidayat" class="w-full px-4 py-3 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Username Login (Tanpa spasi)</label>
+                    <input type="text" id="reg-username" required placeholder="Contoh: rianhidayat" class="w-full px-4 py-3 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Password</label>
+                    <input type="password" id="reg-password" required placeholder="Buat password..." class="w-full px-4 py-3 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm focus:ring-2 focus:ring-brand-500 outline-none">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl text-base sm:text-sm shadow-lg transition">
+                    Daftar & Masuk Otomatis
+                </button>
+            </form>
+
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 text-center">
+                <p class="text-xs text-slate-500">Sudah punya akun?</p>
+                <button onclick="closeRegisterModal(); openLoginModal();" class="mt-1 text-xs font-bold text-brand-600 dark:text-indigo-400 hover:underline">
+                    Login di Sini
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Discord-Style Profile Modal -->
+    <div id="profile-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden p-4">
+        <div id="profile-modal-box" class="w-full max-w-md max-h-[90vh] overflow-y-auto discord-modal rounded-3xl shadow-2xl relative my-auto transition-all duration-500">
+            <!-- Banner Top -->
+            <div id="profile-banner" class="h-32 w-full animated-banner-1 relative">
+                <button onclick="closeProfileModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Avatar & Frame Section -->
+            <div class="px-6 pb-6 relative">
+                <div class="flex justify-between items-end -mt-14 mb-4">
+                    <div class="relative">
+                        <img id="profile-modal-avatar" src="" class="w-24 h-24 rounded-full object-cover border-4 border-[#111214] shadow-2xl bg-[#111214]">
+                        <div id="profile-avatar-frame" class="absolute -inset-1 rounded-full pointer-events-none"></div>
+                        <span id="profile-badge-icon" class="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs shadow-lg font-bold"><i class="fa-solid fa-check"></i></span>
+                    </div>
+                    <button onclick="closeProfileModal(); openEditProfileModal();" class="px-4 py-2 bg-[#5865F2] hover:bg-[#4752c4] text-white font-semibold rounded-xl text-xs shadow transition flex items-center">
+                        <i class="fa-solid fa-pen-to-square mr-1.5"></i>Edit Profile
+                    </button>
+                </div>
+
+                <!-- Display Name, Username & Role -->
+                <div class="mb-4">
+                    <h3 id="profile-modal-name" class="text-xl font-bold text-white flex items-center">Nama User</h3>
+                    <p class="text-xs text-[#949ba4] mt-0.5">Username: <span id="profile-modal-username" class="font-mono text-indigo-400">username</span></p>
+                    <p id="profile-modal-role" class="text-xs text-[#949ba4] font-medium mt-0.5">Role / Jabatan</p>
+                </div>
+
+                <!-- Wallet Saldo Box -->
+                <div class="bg-[#2b2d31] border border-[#3f4147] p-3.5 rounded-2xl mb-4 flex items-center justify-between shadow-inner">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-[#949ba4] tracking-wider">Dompet Saldo XII C</span>
+                        <h4 id="profile-modal-saldo" class="text-xl font-extrabold text-emerald-400 mt-0.5">Rp 0</h4>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="openDepositModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-xs shadow transition">Deposit</button>
+                        <button onclick="openTransferModal()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs shadow transition">Transfer</button>
+                    </div>
+                </div>
+
+                <!-- Tabs: Main / Wishlist -->
+                <div class="flex border-b border-[#2b2d31] mb-4 text-xs font-semibold">
+                    <button class="pb-2 px-2 border-b-2 border-[#5865F2] text-white">Main</button>
+                    <button class="pb-2 px-2 text-[#949ba4] hover:text-white transition">Wishlist & Boost</button>
+                </div>
+
+                <!-- Bio / About Me -->
+                <div class="space-y-3 bg-[#1e1f22] p-4 rounded-2xl mb-4 border border-[#2b2d31]">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-[#949ba4]">About Me</span>
+                        <p id="profile-modal-bio" class="text-xs text-[#dbdee1] mt-1 font-normal leading-relaxed"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-[#949ba4]">Status / Motto</span>
+                        <p id="profile-modal-status" class="text-xs text-[#dbdee1] mt-0.5 italic"></p>
+                    </div>
+                    <div class="pt-2 border-t border-[#2b2d31] flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-[#949ba4]">Keamanan PIN (2FA)</span>
+                            <p id="profile-modal-pin-status" class="text-xs font-semibold text-emerald-400 mt-0.5">Non-aktif</p>
+                        </div>
+                        <button onclick="openSecurityModal()" class="px-3 py-1.5 rounded-xl bg-[#2b2d31] hover:bg-[#35373c] text-xs font-semibold transition text-white">
+                            <i class="fa-solid fa-shield-halved mr-1"></i>Atur PIN
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Banner & Frame Customizer Selector -->
+                <div class="bg-[#1e1f22] p-4 rounded-2xl mb-4 border border-[#2b2d31]">
+                    <span class="text-[10px] uppercase font-bold text-[#949ba4] mb-2 block">Pilih Banner & Bingkai (Boosted)</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <select id="select-banner" onchange="changeProfileBanner(this.value)" class="w-full px-3 py-2 rounded-xl bg-[#2b2d31] text-white text-xs border border-[#3f4147] outline-none">
+                            <option value="banner-1">Sunset Wave Banner</option>
+                            <option value="banner-2">Cosmic Purple Banner</option>
+                            <option value="banner-3">Cyber Emerald Banner</option>
+                        </select>
+                        <select id="select-frame" onchange="changeProfileFrame(this.value)" class="w-full px-3 py-2 rounded-xl bg-[#2b2d31] text-white text-xs border border-[#3f4147] outline-none">
+                            <option value="none">Tanpa Bingkai</option>
+                            <option value="cosmic">Cosmic Purple Frame</option>
+                            <option value="neon">Neon Pink Frame</option>
+                            <option value="cyber">Cyber Emerald Frame</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Amp up your profile banner -->
+                <div class="bg-gradient-to-r from-purple-900/40 to-indigo-900/40 border border-purple-500/30 p-3.5 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold"><i class="fa-solid fa-bolt"></i></div>
+                        <div>
+                            <p class="text-xs font-bold text-white">Amp up your profile</p>
+                            <p class="text-[10px] text-purple-300">Beli custom banner & frame di Shop</p>
+                        </div>
+                    </div>
+                    <button onclick="closeProfileModal(); scrollToSection('shop');" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-semibold shadow transition">Shop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="deposit-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-sm max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-emerald-500/40 text-center my-auto">
+            <h3 class="text-xl font-bold mb-2">Deposit Saldo Dompet</h3>
+            <p class="text-xs text-slate-400 mb-6">Pilih atau masukkan nominal deposit untuk akun Anda.</p>
+            <div class="grid grid-cols-3 gap-2 mb-4">
+                <button onclick="setDepositAmount(50000)" class="py-2.5 rounded-xl glass hover:bg-emerald-500/20 text-xs font-bold border border-slate-700">Rp 50rb</button>
+                <button onclick="setDepositAmount(100000)" class="py-2.5 rounded-xl glass hover:bg-emerald-500/20 text-xs font-bold border border-slate-700">Rp 100rb</button>
+                <button onclick="setDepositAmount(250000)" class="py-2.5 rounded-xl glass hover:bg-emerald-500/20 text-xs font-bold border border-slate-700">Rp 250rb</button>
+            </div>
+            <input type="number" id="deposit-amount-input" placeholder="Atau nominal lain..." class="w-full px-4 py-3 rounded-xl glass border border-slate-700 text-base sm:text-sm mb-4 outline-none text-center font-bold">
+            <div class="flex gap-2">
+                <button onclick="submitDeposit()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow">Konfirmasi Deposit</button>
+                <button onclick="closeDepositModal()" class="px-4 py-3 bg-slate-800 text-white font-bold rounded-xl text-xs">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div id="transfer-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-sm max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-indigo-500/40 my-auto">
+            <h3 class="text-xl font-bold mb-2 text-center">Transfer Saldo</h3>
+            <p class="text-xs text-slate-400 mb-6 text-center">Kirim saldo ke sesama anggota kelas XII C.</p>
+            <form onsubmit="submitTransfer(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Pilih Penerima</label>
+                    <select id="transfer-recipient" required class="w-full px-4 py-2.5 rounded-xl glass border border-slate-700 text-base sm:text-xs outline-none">
+                        <!-- Populated via JS -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Nominal Transfer (Rp)</label>
+                    <input type="number" id="transfer-amount" required placeholder="Contoh: 25000" class="w-full px-4 py-2.5 rounded-xl glass border border-slate-700 text-base sm:text-xs outline-none font-bold">
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button type="submit" class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs shadow">Kirim Sekarang</button>
+                    <button type="button" onclick="closeTransferModal()" class="px-4 py-3 bg-slate-800 text-white font-bold rounded-xl text-xs">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Security PIN Setup Modal -->
+    <div id="security-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-sm max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-brand-500/40 text-center my-auto">
+            <h3 class="text-xl font-bold mb-2">Keamanan Akun (PIN 2FA)</h3>
+            <p class="text-xs text-slate-400 mb-6">Aktifkan PIN minimal 4 digit untuk mengamankan login akun Anda.</p>
+            <form onsubmit="saveSecurityPin(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Buat PIN Keamanan (4-6 digit)</label>
+                    <input type="password" id="new-security-pin" maxlength="6" placeholder="••••" class="w-full px-4 py-3 rounded-xl glass border border-slate-700 text-center tracking-widest text-xl font-bold outline-none">
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button type="submit" class="flex-1 py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs shadow">Simpan & Aktifkan PIN</button>
+                    <button type="button" onclick="disableSecurityPin()" class="py-3 px-4 bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 font-bold rounded-xl text-xs">Matikan PIN</button>
+                </div>
+            </form>
+            <button onclick="closeSecurityModal()" class="mt-4 text-xs text-slate-500 hover:underline">Tutup</button>
+        </div>
+    </div>
+
+    <!-- Member Detail Modal -->
+    <div id="member-detail-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md hidden p-4">
+        <div class="w-full max-w-md max-h-[90vh] overflow-y-auto discord-modal rounded-3xl shadow-2xl relative my-auto">
+            <div id="member-modal-banner" class="h-32 w-full animated-banner-1 relative">
+                <button onclick="closeMemberDetailModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 hover:bg-black/70 text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <div class="px-6 pb-6 relative">
+                <div class="flex justify-between items-end -mt-14 mb-4">
+                    <div class="relative">
+                        <img id="member-modal-avatar" src="" class="w-24 h-24 rounded-full object-cover border-4 border-[#111214] shadow-2xl bg-[#111214]">
+                        <div id="member-modal-frame" class="absolute -inset-1 rounded-full pointer-events-none"></div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h3 id="member-modal-name" class="text-xl font-bold text-white">Nama Member</h3>
+                    <p id="member-modal-role" class="text-xs text-[#949ba4] font-medium mt-0.5">Role</p>
+                    <p class="text-xs font-bold text-slate-400 mt-1">Dompet: Terprivasi 🔒</p>
+                </div>
+                <div class="space-y-3 bg-[#1e1f22] p-4 rounded-2xl mb-6 border border-[#2b2d31]">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-[#949ba4]">Status / Motto</span>
+                        <p id="member-modal-status" class="text-xs text-[#dbdee1] mt-0.5 italic"></p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-[#949ba4]">Bio</span>
+                        <p id="member-modal-bio" class="text-xs text-[#dbdee1] mt-1 font-normal leading-relaxed"></p>
+                    </div>
+                </div>
+                <div class="flex justify-center gap-3">
+                    <a id="member-ig-link" href="#" target="_blank" class="px-4 py-2.5 rounded-xl bg-pink-600/10 hover:bg-pink-600/20 text-pink-400 font-semibold text-xs transition flex items-center">
+                        <i class="fa-brands fa-instagram mr-1.5 text-sm"></i> Instagram
+                    </a>
+                    <a id="member-wa-link" href="#" target="_blank" class="px-4 py-2.5 rounded-xl bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 font-semibold text-xs transition flex items-center">
+                        <i class="fa-brands fa-whatsapp mr-1.5 text-sm"></i> WhatsApp
+                    </a>
+                    <a id="member-discord-link" href="#" target="_blank" class="px-4 py-2.5 rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 font-semibold text-xs transition flex items-center">
+                        <i class="fa-brands fa-discord mr-1.5 text-sm"></i> Discord
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="edit-profile-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-md max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-slate-200 dark:border-slate-700 my-auto">
+            <button onclick="closeEditProfileModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-4 flex items-center"><i class="fa-solid fa-user-pen text-brand-600 mr-2"></i>Edit Profil Pribadi</h3>
+            <form onsubmit="submitEditProfile(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Nama Tampilan (Display Name)</label>
+                    <input type="text" id="edit-my-name" required class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Status / Motto Anda</label>
+                    <input type="text" id="edit-my-status" placeholder="Contoh: Fokus PTN 2026!" class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Bio Singkat</label>
+                    <textarea id="edit-my-bio" rows="3" placeholder="Ceritakan sedikit tentang Anda..." class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-base sm:text-sm shadow">
+                    Simpan Perubahan Profil
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Student/Role Management Modal (Includes Password configuration so admin-created accounts can log in) -->
+    <div id="student-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md hidden p-4">
+        <div class="admin-glass w-full max-w-md max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-emerald-500/50 my-auto">
+            <button onclick="closeStudentModal()" class="absolute top-5 right-5 text-emerald-300 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 id="student-modal-title" class="text-xl font-bold mb-4 text-white flex items-center"><i class="fa-solid fa-user-pen text-emerald-400 mr-2"></i>Kelola Anggota Kelas</h3>
+            <form onsubmit="submitStudentForm(event)" class="space-y-4">
+                <input type="hidden" id="edit-student-index" value="-1">
+                <div>
+                    <label class="block text-xs font-semibold text-emerald-300 mb-1">Nama Tampilan (Display Name)</label>
+                    <input type="text" id="modal-student-name" required placeholder="Contoh: Budi Santoso" class="w-full px-4 py-2.5 rounded-xl glass border border-emerald-500/30 text-base sm:text-sm outline-none text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-emerald-300 mb-1">Username Login</label>
+                    <input type="text" id="modal-student-username" required placeholder="Contoh: budisantoso" class="w-full px-4 py-2.5 rounded-xl glass border border-emerald-500/30 text-base sm:text-sm outline-none text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-emerald-300 mb-1">Password Login</label>
+                    <input type="text" id="modal-student-password" required placeholder="Atur password login..." class="w-full px-4 py-2.5 rounded-xl glass border border-emerald-500/30 text-base sm:text-sm outline-none text-white">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-emerald-300 mb-1">Jabatan / Role</label>
+                    <select id="modal-student-role" class="w-full px-4 py-2.5 rounded-xl glass border border-emerald-500/30 text-base sm:text-sm outline-none text-slate-900 font-bold">
+                        <option value="Siswa / Anggota">Siswa / Anggota (Tampil di Direktori)</option>
+                        <option value="Wali Kelas">Wali Kelas</option>
+                        <option value="Ketua Kelas">Ketua Kelas</option>
+                        <option value="Wakil Ketua">Wakil Ketua</option>
+                        <option value="Sekretaris">Sekretaris</option>
+                        <option value="Bendahara">Bendahara</option>
+                        <option value="Seksi Keamanan">Seksi Keamanan</option>
+                        <option value="Seksi Kebersihan">Seksi Kebersihan</option>
+                        <option value="Pengunjung">Pengunjung / Belum Ditugaskan (Tidak Tampil di Direktori)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-xl text-base sm:text-sm shadow">
+                    Simpan Perubahan Database
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div id="announcement-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-md max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-slate-200 dark:border-slate-700 my-auto">
+            <button onclick="closeAddAnnouncementModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-4 flex items-center"><i class="fa-solid fa-bullhorn text-brand-600 mr-2"></i>Buat Pengumuman Baru</h3>
+            <form onsubmit="submitAnnouncement(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Judul Pengumuman</label>
+                    <input type="text" id="new-ann-title" required placeholder="Contoh: Jam Kosong Jam ke-3" class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Kategori / Tag</label>
+                    <input type="text" id="new-ann-tag" required placeholder="Contoh: Akademik / Penting" class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Isi Pesan</label>
+                    <textarea id="new-ann-desc" rows="3" required placeholder="Tulis detail pengumuman..." class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-base sm:text-sm shadow">
+                    Publikasikan ke Backend
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Homework Modal -->
+    <div id="homework-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md hidden p-4">
+        <div class="glass w-full max-w-md max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-3xl shadow-2xl relative border border-slate-200 dark:border-slate-700 my-auto">
+            <button onclick="closeAddHomeworkModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-4 flex items-center"><i class="fa-solid fa-book text-indigo-600 mr-2"></i>Tambah Tugas Kelas</h3>
+            <form onsubmit="submitHomework(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Mata Pelajaran</label>
+                    <input type="text" id="new-hw-subject" required placeholder="Contoh: Matematika Peminatan" class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Judul / Detail Tugas</label>
+                    <input type="text" id="new-hw-title" required placeholder="Contoh: Kerjakan LKS hal 45" class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold mb-1">Tenggat Waktu (Deadline)</label>
+                    <input type="text" id="new-hw-deadline" required placeholder="Contoh: Kamis, 2 Oktober 2027" class="w-full px-4 py-2.5 rounded-xl glass border border-slate-300 dark:border-slate-700 text-base sm:text-sm outline-none focus:ring-2 focus:ring-brand-500">
+                </div>
+                <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-base sm:text-sm shadow">
+                    Simpan Tugas ke Backend
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom Notification Toast Pop-up -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-28 opacity-0 transition-all duration-300 glass px-6 py-4 rounded-2xl shadow-2xl border border-slate-300 dark:border-slate-700 flex items-center space-x-3 bg-white/90 dark:bg-slate-900/95">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-xl"></i>
+        <div>
+            <p id="toast-title" class="text-xs font-bold text-slate-400">Notifikasi Sistem</p>
+            <span id="toast-message" class="text-sm font-semibold">Berhasil memproses tindakan!</span>
+        </div>
+    </div>
+
+    
+
+    
+<script>
+/* ===== INLINE app.js ===== */
+tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        },
+                        discord: {
+                            bg: '#111214',
+                            card: '#1e1f22',
+                            input: '#2b2d31',
+                            hover: '#35373c'
+                        },
+                        darker: '#090d16'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float-slow': 'floatSlow 6s ease-in-out infinite',
+                        'sparkle': 'sparkle 3s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 4s ease-in-out infinite',
+                        'cyber-glow': 'cyberGlow 3s ease-in-out infinite',
+                        'neon-pulse': 'neonPulse 2s ease-in-out infinite',
+                        'banner-wave': 'bannerWave 10s ease infinite',
+                    },
+                    keyframes: {
+                        floatSlow: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-14px) rotate(2deg)' },
+                        },
+                        sparkle: {
+                            '0%, 100%': { opacity: '0.4', transform: 'scale(0.8)' },
+                            '50%': { opacity: '1', transform: 'scale(1.2)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 25px rgba(99, 102, 241, 0.4)' },
+                            '50%': { boxShadow: '0 0 45px rgba(129, 140, 248, 0.8)' },
+                        },
+                        cyberGlow: {
+                            '0%, 100%': { boxShadow: '0 0 45px rgba(16, 185, 129, 0.7), inset 0 0 25px rgba(16, 185, 129, 0.4)' },
+                            '50%': { boxShadow: '0 0 75px rgba(52, 211, 153, 1), inset 0 0 40px rgba(52, 211, 153, 0.7)' },
+                        },
+                        neonPulse: {
+                            '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(99, 102, 241, 0.8))' },
+                            '50%': { filter: 'drop-shadow(0 0 30px rgba(168, 85, 247, 1))' }
+                        },
+                        bannerWave: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' }
+                        }
+                    }
+                }
+            }
+        }
+
+let currentUser = null; 
+        let currentActiveView = 'frontend'; 
+        let pendingUserForPin = null; 
+
+        // Master Data for XII C (2026/2027) with Admin Zyen / Steven@0921 (Admin hidden from public directory)
+        let studentsData = [
+            { username: 'zyen', password: 'Steven@0921', name: 'Zyen (Master Admin)', role: 'Administrator', bio: 'System Administrator & Backend Master XII C 2026/2027.', status: 'Menjaga sistem tetap optimal 🛡️', avatar: 'https://placehold.co/150x150/10b981/ffffff?text=ZYEN', saldo: 5000000, pin: '', pinEnabled: false, banner: 'animated-banner-3', frame: 'cyber', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'ibu_aminah', password: '123', name: 'Ibu Dra. Hj. Siti Aminah, M.Pd', role: 'Wali Kelas', bio: 'Wali kelas berdedikasi tinggi demi kesuksesan siswa XII C.', status: 'Mendidik dengan hati 💙', avatar: 'https://placehold.co/150x150/4f46e5/ffffff?text=Wali', saldo: 250000, pin: '', pinEnabled: false, banner: 'animated-banner-1', frame: 'none', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'aditya', password: '123', name: 'Aditya Pratama', role: 'Ketua Kelas', bio: 'Siap memimpin kelas XII C solid dan kompak selalu.', status: 'Fokus sukses PTN 2027 🚀', avatar: 'https://placehold.co/150x150/6366f1/ffffff?text=AP', saldo: 150000, pin: '', pinEnabled: false, banner: 'animated-banner-2', frame: 'cosmic', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'alya', password: '123', name: 'Alya Zahra', role: 'Wakil Ketua', bio: 'Mendukung penuh setiap program kerja kelas.', status: 'Semangat belajar!', avatar: 'https://placehold.co/150x150/4f46e5/ffffff?text=AZ', saldo: 120000, pin: '', pinEnabled: false, banner: 'animated-banner-1', frame: 'none', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'dimas', password: '123', name: 'Dimas Anggara', role: 'Sekretaris', bio: 'Mencatat segala administrasi kelas dengan rapi.', status: 'Disiplin nomor satu', avatar: 'https://placehold.co/150x150/312e81/ffffff?text=DA', saldo: 95000, pin: '', pinEnabled: false, banner: 'animated-banner-3', frame: 'neon', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'dewi', password: '123', name: 'Dewi Lestari', role: 'Bendahara', bio: 'Mengelola kas kelas transparan & akuntabel.', status: 'Kas lancar jaya ✨', avatar: 'https://placehold.co/150x150/818cf8/ffffff?text=DL', saldo: 300000, pin: '', pinEnabled: false, banner: 'animated-banner-2', frame: 'none', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'fajar', password: '123', name: 'Fajar Ramadhan', role: 'Seksi Keamanan', bio: 'Menjaga ketertiban kelas dan lingkungan sekitar.', status: 'Aman dan terkendali', avatar: 'https://placehold.co/150x150/6366f1/ffffff?text=FR', saldo: 50000, pin: '', pinEnabled: false, banner: 'animated-banner-1', frame: 'none', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'intan', password: '123', name: 'Intan Permata', role: 'Seksi Kebersihan', bio: 'Kebersihan adalah sebagian dari iman.', status: 'Kelas bersih hati bersih', avatar: 'https://placehold.co/150x150/4f46e5/ffffff?text=IP', saldo: 75000, pin: '', pinEnabled: false, banner: 'animated-banner-3', frame: 'none', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+            { username: 'rezky', password: '123', name: 'Rezky Kurniawan', role: 'Siswa / Anggota', bio: 'Anak IT dan penikmat kopi.', status: 'Ngoding setiap hari', avatar: 'https://placehold.co/150x150/312e81/ffffff?text=RK', saldo: 110000, pin: '', pinEnabled: false, banner: 'animated-banner-2', frame: 'cyber', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' },
+        ];
+
+        let announcementsData = [
+            { id: 1, title: 'Pembagian Kelompok Ujian Praktik', tag: 'Akademik', date: '28 Sep 2026', desc: 'Daftar kelompok ujian praktik semester ganjil tahun ajaran 2026/2027 sudah dapat dicek di mading kelas.' },
+            { id: 2, title: 'Iuran Kas Kelas Bulanan', tag: 'Bendahara', date: '25 Sep 2026', desc: 'Pembayaran kas kelas minggu ini dikoordinasikan langsung oleh Bendahara Dewi Lestari.' },
+            { id: 3, title: 'Jadwal Piket Baru 2026', tag: 'Kebersihan', date: '20 Sep 2026', desc: 'Harap seluruh anggota piket harian datang 15 menit lebih awal sebelum bel masuk.' }
+        ];
+
+        let scheduleData = {
+            'Senin': [
+                { time: '07.00 - 08.30', subject: 'Upacara Bendera & Pembinaan Wali Kelas', teacher: 'Ibu Dra. Hj. Siti Aminah' },
+                { time: '08.30 - 10.00', subject: 'Matematika Tingkat Lanjut', teacher: 'Bapak Drs. Budi Santoso, M.Pd.' },
+                { time: '10.15 - 11.45', subject: 'Bahasa Indonesia', teacher: 'Ibu Rina Marlina, S.Pd.' },
+                { time: '12.30 - 14.00', subject: 'Pendidikan Agama Islam', teacher: 'Bapak H. Ahmad Fauzi, S.Ag.' }
+            ],
+            'Selasa': [
+                { time: '07.00 - 08.30', subject: 'Fisika Peminatan', teacher: 'Bapak Ir. Joko Widodo' },
+                { time: '08.30 - 10.00', subject: 'Kimia Peminatan', teacher: 'Ibu Dr. Sri Wahyuni' },
+                { time: '10.15 - 11.45', subject: 'Bahasa Inggris', teacher: 'Mr. David Beckham, M.Ed.' },
+                { time: '12.30 - 14.00', subject: 'Sejarah Indonesia', teacher: 'Bapak Drs. Suharjo' }
+            ],
+            'Rabu': [
+                { time: '07.00 - 08.30', subject: 'Biologi Peminatan', teacher: 'Ibu Prof. Dr. Ani Rahmawati' },
+                { time: '08.30 - 10.00', subject: 'Ekonomi / Sosiologi', teacher: 'Bapak Drs. Hendra Kusuma' },
+                { time: '10.15 - 11.45', subject: 'Seni Budaya & Keterampilan', teacher: 'Ibu Maya Sofa, S.Sn.' },
+                { time: '12.30 - 14.00', subject: 'Pendidikan Jasmani & Kesehatan', teacher: 'Bapak Coach Rian, M.Or.' }
+            ],
+            'Kamis': [
+                { time: '07.00 - 08.30', subject: 'Matematika Tingkat Lanjut', teacher: 'Bapak Drs. Budi Santoso, M.Pd.' },
+                { time: '08.30 - 10.00', subject: 'Fisika Peminatan', teacher: 'Bapak Ir. Joko Widodo' },
+                { time: '10.15 - 11.45', subject: 'Pancasila & Kewarganegaraan', teacher: 'Ibu Hj. Nurul Hidayah, S.H.' },
+                { time: '12.30 - 14.00', subject: 'Informatika / Komputer', teacher: 'Bapak Reza Pratama, S.Kom.' }
+            ],
+            'Jumat': [
+                { time: '07.00 - 08.00', subject: 'Literasi & Keagamaan Pagi', teacher: 'Wali Kelas & Guru Piket' },
+                { time: '08.00 - 09.30', subject: 'Kimia Peminatan', teacher: 'Ibu Dr. Sri Wahyuni' },
+                { time: '09.45 - 11.15', subject: 'Bahasa Inggris', teacher: 'Mr. David Beckham, M.Ed.' }
+            ],
+            'Sabtu': [
+                { time: '07.30 - 10.00', subject: 'Ekstrakurikuler Wajib & Pilihan (Pramuka/PMR/OSIS)', teacher: 'Pembina Ekstrakurikuler' },
+                { time: '10.15 - 12.00', subject: 'Bimbingan Konseling & Persiapan PTN', teacher: 'Tim BK SMAN Unggulan' }
+            ]
+        };
+
+        let homeworkData = [
+            { id: 1, subject: 'Matematika Tingkat Lanjut', title: 'Latihan Soal Limit & Turunan', deadline: 'Kamis, 1 Oktober 2026', status: 'Pending' },
+            { id: 2, subject: 'Fisika Peminatan', title: 'Laporan Praktikum Listrik Dinamis', deadline: 'Jumat, 2 Oktober 2026', status: 'Pending' },
+            { id: 3, subject: 'Informatika', title: 'Deploy Web Portal Kelas ke Server', deadline: 'Senin, 5 Oktober 2026', status: 'Pending' }
+        ];
+
+        // Three.js 3D Background with Magical Particle System
+        function init3D() {
+            const container = document.getElementById('canvas-container');
+            if (!container) return;
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.TorusKnotGeometry(8.5, 2.6, 120, 16);
+            const material = new THREE.MeshStandardMaterial({
+                color: 0x6366f1,
+                wireframe: true,
+                roughness: 0.15,
+                metalness: 0.85
+            });
+            const torusKnot = new THREE.Mesh(geometry, material);
+            scene.add(torusKnot);
+
+            const particleCount = 200;
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesPositions = new Float32Array(particleCount * 3);
+
+            for(let i = 0; i < particleCount * 3; i++) {
+                particlesPositions[i] = (Math.random() - 0.5) * 60;
+            }
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(particlesPositions, 3));
+            
+            const particlesMaterial = new THREE.PointsMaterial({
+                color: 0x818cf8,
+                size: 0.4,
+                transparent: true,
+                opacity: 0.8
+            });
+            const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particleSystem);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+            scene.add(ambientLight);
+
+            const pointLight = new THREE.PointLight(0x4f46e5, 4, 80);
+            pointLight.position.set(20, 20, 20);
+            scene.add(pointLight);
+
+            camera.position.z = 28;
+
+            let mouseX = 0;
+            let mouseY = 0;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.0007;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.0007;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                torusKnot.rotation.x += 0.003 + mouseY * 0.2;
+                torusKnot.rotation.y += 0.005 + mouseX * 0.2;
+                particleSystem.rotation.y -= 0.001;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                if (!container) return;
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        function switchView(view) {
+            currentActiveView = view;
+            const frontendView = document.getElementById('frontend-view');
+            const backendView = document.getElementById('backend-view');
+
+            if (view === 'backend') {
+                if (!currentUser || currentUser.role !== 'Administrator') {
+                    showToast('Akses Ditolak', 'Hanya Admin Zyen yang dapat mengakses panel backend cyber.', 'error');
+                    openLoginModal();
+                    return;
+                }
+                frontendView.classList.add('hidden');
+                backendView.classList.remove('hidden');
+                renderBackendManagement();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                showToast('Cyber Backend Aktif', 'Selamat datang di Zyen Master Cyber Admin Center.', 'success');
+            } else {
+                backendView.classList.add('hidden');
+                frontendView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        function mobileNavClick(sectionId) {
+            toggleMobileMenu();
+            if (currentActiveView !== 'frontend') {
+                switchView('frontend');
+                setTimeout(() => scrollToSection(sectionId), 200);
+            } else {
+                scrollToSection(sectionId);
+            }
+        }
+
+        function toggleUserDropdown() {
+            const menu = document.getElementById('user-dropdown-menu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
+        window.addEventListener('click', function(e) {
+            const container = document.getElementById('nav-auth-slot');
+            const menu = document.getElementById('user-dropdown-menu');
+            if (container && menu && !container.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        function renderAnnouncements() {
+            const grid = document.getElementById('announcements-grid');
+            if (!grid) return;
+            grid.innerHTML = announcementsData.map(ann => `
+                <div class="glass p-6 rounded-3xl shadow-md border border-slate-200 dark:border-slate-800 flex flex-col justify-between hover:shadow-xl transition transform hover:-translate-y-1">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-600 dark:text-indigo-400">${ann.tag}</span>
+                            <span class="text-xs text-slate-400">${ann.date}</span>
+                        </div>
+                        <h3 class="text-lg font-bold mb-2">${ann.title}</h3>
+                        <p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">${ann.desc}</p>
+                    </div>
+                    ${currentUser && currentUser.role === 'Administrator' ? `
+                        <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-end">
+                            <button onclick="deleteAnnouncement(${ann.id})" class="text-rose-500 hover:text-rose-700 text-xs font-semibold">
+                                <i class="fa-solid fa-trash mr-1"></i>Hapus
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function renderBackendManagement() {
+            document.getElementById('be-stat-students').textContent = studentsData.length;
+            const totalSaldo = studentsData.reduce((acc, curr) => acc + (curr.saldo || 0), 0);
+            document.getElementById('be-stat-saldo').textContent = 'Rp ' + totalSaldo.toLocaleString('id-ID');
+
+            const tableBody = document.getElementById('admin-students-table');
+            if (tableBody) {
+                tableBody.innerHTML = studentsData.map((stu, index) => `
+                    <tr class="border-b border-emerald-500/20 hover:bg-emerald-500/10 transition">
+                        <td class="py-3 px-4 flex items-center space-x-3">
+                            <img src="${stu.avatar}" class="w-9 h-9 rounded-xl object-cover shadow-sm border border-emerald-500">
+                            <div>
+                                <span class="font-bold text-white block">${stu.name}</span>
+                                <span class="text-[10px] text-emerald-300/80 font-mono">Pass: ${stu.password}</span>
+                            </div>
+                        </td>
+                        <td class="py-3 px-4 font-mono text-xs text-emerald-300">${stu.username}</td>
+                        <td class="py-3 px-4">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">${stu.role}</span>
+                        </td>
+                        <td class="py-3 px-4 font-extrabold text-emerald-400">Rp ${(stu.saldo || 0).toLocaleString('id-ID')}</td>
+                        <td class="py-3 px-4 flex items-center space-x-2">
+                            <button onclick="openEditStudentModal(${index})" class="px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/40 text-xs font-semibold transition"><i class="fa-solid fa-pen-to-square mr-1"></i>Edit</button>
+                            <button onclick="deleteStudent(${index})" class="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500/40 text-xs font-semibold transition"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            const annList = document.getElementById('backend-announcements-list');
+            if (annList) {
+                annList.innerHTML = announcementsData.map(ann => `
+                    <div class="p-4 rounded-2xl admin-glass border border-emerald-500/30 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-emerald-300">${ann.tag}</span>
+                            <h4 class="font-bold text-sm text-white">${ann.title}</h4>
+                            <p class="text-xs text-emerald-200/70 truncate max-w-xs">${ann.desc}</p>
+                        </div>
+                        <button onclick="deleteAnnouncement(${ann.id})" class="p-2 rounded-xl bg-rose-500/20 text-rose-300 hover:bg-rose-500/40 transition text-xs">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const hwList = document.getElementById('backend-homework-list');
+            if (hwList) {
+                hwList.innerHTML = homeworkData.map(hw => `
+                    <div class="p-4 rounded-2xl admin-glass border border-emerald-500/30 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-emerald-300">${hw.subject}</span>
+                            <h4 class="font-bold text-sm text-white">${hw.title}</h4>
+                            <p class="text-xs text-emerald-200/70">Deadline: ${hw.deadline}</p>
+                        </div>
+                        <button onclick="deleteHomework(${hw.id})" class="p-2 rounded-xl bg-rose-500/20 text-rose-300 hover:bg-rose-500/40 transition text-xs">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function switchDay(day) {
+            ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'].forEach(d => {
+                const btn = document.getElementById(`tab-${d}`);
+                if (!btn) return;
+                if (d === day) {
+                    btn.className = 'px-5 py-2.5 rounded-xl font-semibold text-sm transition bg-brand-600 text-white shadow-md';
+                } else {
+                    btn.className = 'px-5 py-2.5 rounded-xl font-semibold text-sm transition glass hover:bg-slate-200 dark:hover:bg-slate-800';
+                }
+            });
+
+            const container = document.getElementById('schedule-container');
+            if (!container) return;
+            const items = scheduleData[day] || [];
+            container.innerHTML = items.map(item => `
+                <div class="glass p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-600 dark:text-indigo-400 flex items-center justify-center font-bold text-xs shrink-0">
+                            <i class="fa-regular fa-clock text-base"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base">${item.subject}</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5"><i class="fa-solid fa-chalkboard-user mr-1.5"></i>${item.teacher}</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1.5 rounded-xl bg-slate-200/70 dark:bg-slate-800 text-xs font-semibold self-start sm:self-center">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        // Render Student Directory (Admin Zyen and 'Pengunjung' strictly hidden from public directory)
+        function renderStudents(filteredList = studentsData.filter(s => s.role !== 'Administrator' && s.role !== 'Pengunjung')) {
+            const grid = document.getElementById('students-grid');
+            if (!grid) return;
+            grid.innerHTML = filteredList.map((stu) => `
+                <div onclick="openMemberDetailByUsername('${stu.username}')" class="glass p-6 rounded-3xl text-center border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:border-brand-500/50 transition cursor-pointer transform hover:-translate-y-1">
+                    <div class="relative inline-block mb-4">
+                        <img src="${stu.avatar}" alt="${stu.name}" class="w-20 h-20 rounded-full mx-auto object-cover shadow-md bg-slate-200">
+                        <div class="absolute -inset-1 rounded-full pointer-events-none ${stu.frame === 'cosmic' ? 'frame-cosmic' : stu.frame === 'neon' ? 'frame-neon' : stu.frame === 'cyber' ? 'frame-cyber' : ''}"></div>
+                    </div>
+                    <h3 class="font-bold text-base">${stu.name}</h3>
+                    <span class="inline-block mt-1 px-3 py-1 rounded-full text-xs font-semibold bg-brand-500/10 text-brand-600 dark:text-indigo-400">${stu.role}</span>
+                    <p class="text-xs text-slate-500 mt-2 italic">"${stu.status || 'Semangat!'}"</p>
+                    <div class="mt-4 text-[11px] text-brand-600 font-semibold flex items-center justify-center">
+                        <i class="fa-solid fa-circle-info mr-1"></i> Klik untuk profil Discord & sosmed
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterStudents() {
+            const query = document.getElementById('search-student').value.toLowerCase();
+            const validClassMembers = studentsData.filter(s => s.role !== 'Administrator' && s.role !== 'Pengunjung');
+            const filtered = validClassMembers.filter(s => s.name.toLowerCase().includes(query) || s.role.toLowerCase().includes(query));
+            renderStudents(filtered);
+        }
+
+        function openMemberDetailByUsername(username) {
+            const stu = studentsData.find(s => s.username === username);
+            if (!stu) return;
+            document.getElementById('member-modal-banner').className = `h-32 w-full ${stu.banner || 'animated-banner-1'} relative`;
+            document.getElementById('member-modal-avatar').src = stu.avatar;
+            
+            const frameDiv = document.getElementById('member-modal-frame');
+            frameDiv.className = `absolute -inset-1 rounded-full pointer-events-none ${stu.frame === 'cosmic' ? 'frame-cosmic' : stu.frame === 'neon' ? 'frame-neon' : stu.frame === 'cyber' ? 'frame-cyber' : ''}`;
+
+            document.getElementById('member-modal-name').textContent = stu.name;
+            document.getElementById('member-modal-role').textContent = stu.role;
+            document.getElementById('member-modal-status').textContent = stu.status || 'Semangat belajar!';
+            document.getElementById('member-modal-bio').textContent = stu.bio || 'Siswa aktif XII C.';
+
+            document.getElementById('member-ig-link').href = stu.ig || 'https://instagram.com';
+            document.getElementById('member-wa-link').href = stu.wa || 'https://whatsapp.com';
+            document.getElementById('member-discord-link').href = stu.discord || 'https://discord.com';
+
+            document.getElementById('member-detail-modal').classList.remove('hidden');
+        }
+        function closeMemberDetailModal() {
+            document.getElementById('member-detail-modal').classList.add('hidden');
+        }
+
+        function renderHomework() {
+            const grid = document.getElementById('homework-grid');
+            if (!grid) return;
+            grid.innerHTML = homeworkData.map(hw => `
+                <div class="glass p-6 rounded-3xl flex flex-col justify-between border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-bold text-brand-600 dark:text-indigo-400 uppercase tracking-wider">${hw.subject}</span>
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-amber-500/10 text-amber-600">${hw.deadline}</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-2">${hw.title}</h3>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                        <span class="text-xs text-slate-500">Status: <strong class="text-brand-600">${hw.status}</strong></span>
+                        ${currentUser && currentUser.role === 'Administrator' ? `
+                            <button onclick="deleteHomework(${hw.id})" class="text-rose-500 hover:text-rose-700 text-xs font-semibold">
+                                <i class="fa-solid fa-trash"></i> Hapus
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function buyMerch(itemName, price) {
+            if (!currentUser) {
+                showToast('Login Diperlukan', 'Silakan login terlebih dahulu untuk membeli merchandise.', 'error');
+                return openLoginModal();
+            }
+            if (currentUser.saldo < price) {
+                showToast('Saldo Tidak Cukup', `Saldo Anda (Rp ${currentUser.saldo.toLocaleString('id-ID')}) kurang untuk membeli ${itemName}. Silakan deposit!`, 'error');
+                return;
+            }
+
+            currentUser.saldo -= price;
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) dbUser.saldo = currentUser.saldo;
+
+            updateAuthUI();
+            showToast('Pembelian Berhasil!', `Berhasil membeli ${itemName} seharga Rp ${price.toLocaleString('id-ID')}. Sisa saldo: Rp ${currentUser.saldo.toLocaleString('id-ID')}`, 'success');
+        }
+
+        function buyBoostItem(type, price) {
+            if (!currentUser) {
+                showToast('Login Diperlukan', 'Silakan login untuk membeli item boost profil.', 'error');
+                return openLoginModal();
+            }
+            if (currentUser.saldo < price) {
+                showToast('Saldo Tidak Cukup', `Saldo Anda (Rp ${currentUser.saldo.toLocaleString('id-ID')}) kurang untuk unlock item boost ini.`, 'error');
+                return;
+            }
+
+            currentUser.saldo -= price;
+            if (type === 'banner') {
+                currentUser.banner = 'animated-banner-2';
+                showToast('Boost Berhasil!', 'Banner animasi Cosmic Purple berhasil di-unlock!', 'success');
+            } else {
+                currentUser.frame = 'cosmic';
+                showToast('Boost Berhasil!', 'Bingkai avatar Cosmic Frame berhasil di-unlock!', 'success');
+            }
+
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) {
+                dbUser.saldo = currentUser.saldo;
+                dbUser.banner = currentUser.banner;
+                dbUser.frame = currentUser.frame;
+            }
+
+            updateAuthUI();
+            openProfileModal();
+        }
+
+        function openLoginModal() {
+            document.getElementById('login-username').value = '';
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+        }
+
+        function openRegisterModal() {
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('register-modal').classList.remove('hidden');
+        }
+        function closeRegisterModal() {
+            document.getElementById('register-modal').classList.add('hidden');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const usernameInput = document.getElementById('login-username').value.trim().toLowerCase();
+            const passwordInput = document.getElementById('login-password').value.trim();
+
+            const found = studentsData.find(s => s.username.toLowerCase() === usernameInput && s.password === passwordInput);
+            if (!found) {
+                return showToast('Login Gagal', 'Username login atau password salah!', 'error');
+            }
+
+            if (found.pinEnabled && found.pin) {
+                pendingUserForPin = found;
+                closeLoginModal();
+                document.getElementById('login-pin-input').value = '';
+                document.getElementById('pin-modal').classList.remove('hidden');
+                return;
+            }
+
+            completeLogin(found);
+        }
+
+        function verifyPin(e) {
+            e.preventDefault();
+            const pinVal = document.getElementById('login-pin-input').value.trim();
+            if (pendingUserForPin && pinVal === pendingUserForPin.pin) {
+                const user = pendingUserForPin;
+                pendingUserForPin = null;
+                document.getElementById('pin-modal').classList.add('hidden');
+                completeLogin(user);
+            } else {
+                showToast('PIN Salah', 'Kode PIN keamanan yang Anda masukkan tidak valid.', 'error');
+            }
+        }
+        function closePinModal() {
+            document.getElementById('pin-modal').classList.add('hidden');
+            pendingUserForPin = null;
+        }
+
+        function completeLogin(found) {
+            currentUser = { 
+                role: found.role, 
+                name: found.name, 
+                username: found.username,
+                userRoleTitle: found.role,
+                bio: found.bio,
+                status: found.status,
+                avatar: found.avatar,
+                saldo: found.saldo || 0,
+                pin: found.pin || '',
+                pinEnabled: found.pinEnabled || false,
+                banner: found.banner || 'animated-banner-1',
+                frame: found.frame || 'none'
+            };
+
+            closeLoginModal();
+            updateAuthUI();
+            openProfileModal();
+            showToast('Login Berhasil', `Selamat datang kembali, ${found.name}!`, 'success');
+        }
+
+        // Public sign-up creates a 'Pengunjung' role user not visible in student directory until Admin assigns a role
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value.trim();
+            const username = document.getElementById('reg-username').value.trim().toLowerCase();
+            const password = document.getElementById('reg-password').value.trim();
+
+            if (studentsData.some(s => s.username.toLowerCase() === username)) {
+                return showToast('Pendaftaran Gagal', 'Username login sudah terpakai, gunakan username lain.', 'error');
+            }
+
+            const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() || 'US';
+            const avatar = `https://placehold.co/150x150/6366f1/ffffff?text=${initials}`;
+
+            const newStudent = {
+                username,
+                password,
+                name,
+                role: 'Pengunjung',
+                bio: 'Pengunjung portal XII C.',
+                status: 'Baru bergabung!',
+                avatar,
+                saldo: 50000,
+                pin: '',
+                pinEnabled: false,
+                banner: 'animated-banner-1',
+                frame: 'none',
+                ig: 'https://instagram.com',
+                wa: 'https://whatsapp.com',
+                discord: 'https://discord.com'
+            };
+
+            studentsData.push(newStudent);
+            currentUser = {
+                role: 'Pengunjung',
+                name: newStudent.name,
+                username: newStudent.username,
+                userRoleTitle: newStudent.role,
+                bio: newStudent.bio,
+                status: newStudent.status,
+                avatar: newStudent.avatar,
+                saldo: newStudent.saldo,
+                pin: '',
+                pinEnabled: false,
+                banner: newStudent.banner,
+                frame: newStudent.frame
+            };
+
+            closeRegisterModal();
+            updateAuthUI();
+            renderStudents();
+            if (currentActiveView === 'backend') renderBackendManagement();
+            showToast('Registrasi Berhasil', `Akun ${name} berhasil dibuat sebagai Pengunjung! Hubungi Admin untuk diberi role kelas.`, 'success');
+            openProfileModal();
+        }
+
+        function logout() {
+            currentUser = null;
+            if (currentActiveView === 'backend') {
+                switchView('frontend');
+            }
+            showToast('Sesi Berakhir', 'Berhasil keluar dari akun.', 'success');
+            updateAuthUI();
+        }
+
+        function openProfileModal() {
+            if (!currentUser) return openLoginModal();
+            
+            document.getElementById('profile-banner').className = `h-32 w-full ${currentUser.banner || 'animated-banner-1'} relative`;
+            document.getElementById('profile-modal-avatar').src = currentUser.avatar;
+            
+            const frameDiv = document.getElementById('profile-avatar-frame');
+            frameDiv.className = `absolute -inset-1 rounded-full pointer-events-none ${currentUser.frame === 'cosmic' ? 'frame-cosmic' : currentUser.frame === 'neon' ? 'frame-neon' : currentUser.frame === 'cyber' ? 'frame-cyber' : ''}`;
+
+            const badgeIcon = document.getElementById('profile-badge-icon');
+            if (currentUser.role === 'Administrator') {
+                badgeIcon.className = 'absolute bottom-0 right-0 w-7 h-7 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center text-xs shadow-lg font-bold';
+            } else {
+                badgeIcon.className = 'absolute bottom-0 right-0 w-7 h-7 rounded-full bg-[#5865F2] text-white flex items-center justify-center text-xs shadow-lg';
+            }
+
+            document.getElementById('profile-modal-name').textContent = currentUser.name;
+            document.getElementById('profile-modal-username').textContent = '@' + currentUser.username;
+            document.getElementById('profile-modal-role').textContent = currentUser.userRoleTitle || currentUser.role;
+            document.getElementById('profile-modal-saldo').textContent = 'Rp ' + (currentUser.saldo || 0).toLocaleString('id-ID');
+            document.getElementById('profile-modal-status').textContent = currentUser.status || '-';
+            document.getElementById('profile-modal-bio').textContent = currentUser.bio || '-';
+            document.getElementById('profile-modal-pin-status').textContent = currentUser.pinEnabled ? 'Aktif (2FA)' : 'Non-aktif';
+
+            document.getElementById('select-banner').value = currentUser.banner || 'animated-banner-1';
+            document.getElementById('select-frame').value = currentUser.frame || 'none';
+
+            document.getElementById('profile-modal').classList.remove('hidden');
+        }
+        function closeProfileModal() {
+            document.getElementById('profile-modal').classList.add('hidden');
+        }
+
+        function changeProfileBanner(val) {
+            currentUser.banner = val;
+            document.getElementById('profile-banner').className = `h-32 w-full ${val} relative`;
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) dbUser.banner = val;
+        }
+
+        function changeProfileFrame(val) {
+            currentUser.frame = val;
+            const frameDiv = document.getElementById('profile-avatar-frame');
+            frameDiv.className = `absolute -inset-1 rounded-full pointer-events-none ${val === 'cosmic' ? 'frame-cosmic' : val === 'neon' ? 'frame-neon' : val === 'cyber' ? 'frame-cyber' : ''}`;
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) dbUser.frame = val;
+        }
+
+        let tempDepositAmount = 0;
+        function openDepositModal() {
+            document.getElementById('deposit-amount-input').value = '';
+            tempDepositAmount = 0;
+            document.getElementById('deposit-modal').classList.remove('hidden');
+        }
+        function closeDepositModal() {
+            document.getElementById('deposit-modal').classList.add('hidden');
+        }
+        function setDepositAmount(amount) {
+            tempDepositAmount = amount;
+            document.getElementById('deposit-amount-input').value = amount;
+        }
+        function submitDeposit() {
+            const inputVal = parseInt(document.getElementById('deposit-amount-input').value);
+            const amt = inputVal || tempDepositAmount;
+            if (!amt || amt <= 0) {
+                return showToast('Nominal Salah', 'Masukkan jumlah deposit yang valid.', 'error');
+            }
+
+            currentUser.saldo += amt;
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) dbUser.saldo = currentUser.saldo;
+
+            closeDepositModal();
+            openProfileModal();
+            renderStudents();
+            showToast('Deposit Berhasil!', `Berhasil menambahkan saldo sebesar Rp ${amt.toLocaleString('id-ID')}.`, 'success');
+        }
+
+        function openTransferModal() {
+            const select = document.getElementById('transfer-recipient');
+            select.innerHTML = studentsData
+                .filter(s => s.username !== currentUser.username)
+                .map(s => `<option value="${s.username}">${s.name} (${s.role})</option>`)
+                .join('');
+            document.getElementById('transfer-amount').value = '';
+            document.getElementById('transfer-modal').classList.remove('hidden');
+        }
+        function closeTransferModal() {
+            document.getElementById('transfer-modal').classList.add('hidden');
+        }
+        function submitTransfer(e) {
+            e.preventDefault();
+            const recipientUsername = document.getElementById('transfer-recipient').value;
+            const amount = parseInt(document.getElementById('transfer-amount').value);
+
+            if (!amount || amount <= 0) {
+                return showToast('Nominal Salah', 'Masukkan nominal transfer yang valid.', 'error');
+            }
+            if (currentUser.saldo < amount) {
+                return showToast('Saldo Tidak Cukup', `Saldo Anda (Rp ${currentUser.saldo.toLocaleString('id-ID')}) tidak mencukupi untuk transfer sebesar Rp ${amount.toLocaleString('id-ID')}.`, 'error');
+            }
+
+            const recipient = studentsData.find(s => s.username === recipientUsername);
+            if (!recipient) {
+                return showToast('Error', 'Penerima tidak ditemukan.', 'error');
+            }
+
+            currentUser.saldo -= amount;
+            recipient.saldo = (recipient.saldo || 0) + amount;
+
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) dbUser.saldo = currentUser.saldo;
+
+            closeTransferModal();
+            openProfileModal();
+            renderStudents();
+            showToast('Transfer Berhasil!', `Berhasil mentransfer Rp ${amount.toLocaleString('id-ID')} ke ${recipient.name}.`, 'success');
+        }
+
+        function openSecurityModal() {
+            document.getElementById('new-security-pin').value = '';
+            document.getElementById('security-modal').classList.remove('hidden');
+        }
+        function closeSecurityModal() {
+            document.getElementById('security-modal').classList.add('hidden');
+        }
+        function saveSecurityPin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('new-security-pin').value.trim();
+            if (pin.length < 4) {
+                return showToast('PIN Terlalu Pendek', 'PIN keamanan minimal harus 4 digit.', 'error');
+            }
+
+            currentUser.pin = pin;
+            currentUser.pinEnabled = true;
+
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) {
+                dbUser.pin = pin;
+                dbUser.pinEnabled = true;
+            }
+
+            closeSecurityModal();
+            openProfileModal();
+            showToast('Keamanan Diaktifkan', 'PIN 2FA berhasil disimpan untuk akun Anda.', 'success');
+        }
+        function disableSecurityPin() {
+            currentUser.pin = '';
+            currentUser.pinEnabled = false;
+
+            const dbUser = studentsData.find(s => s.username === currentUser.username);
+            if (dbUser) {
+                dbUser.pin = '';
+                dbUser.pinEnabled = false;
+            }
+
+            closeSecurityModal();
+            openProfileModal();
+            showToast('Keamanan Dimatikan', 'PIN 2FA telah dinonaktifkan dari akun Anda.', 'success');
+        }
+
+        function openEditProfileModal() {
+            if (!currentUser) return openLoginModal();
+            document.getElementById('edit-my-name').value = currentUser.name;
+            document.getElementById('edit-my-status').value = currentUser.status || '';
+            document.getElementById('edit-my-bio').value = currentUser.bio || '';
+            document.getElementById('edit-profile-modal').classList.remove('hidden');
+        }
+        function closeEditProfileModal() {
+            document.getElementById('edit-profile-modal').classList.add('hidden');
+        }
+
+        function submitEditProfile(e) {
+            e.preventDefault();
+            const newName = document.getElementById('edit-my-name').value;
+            const newStatus = document.getElementById('edit-my-status').value;
+            const newBio = document.getElementById('edit-my-bio').value;
+
+            currentUser.name = newName;
+            currentUser.status = newStatus;
+            currentUser.bio = newBio;
+
+            const found = studentsData.find(s => s.username === currentUser.username);
+            if (found) {
+                found.name = newName;
+                found.status = newStatus;
+                found.bio = newBio;
+            }
+
+            closeEditProfileModal();
+            updateAuthUI();
+            openProfileModal();
+            renderStudents();
+            showToast('Berhasil', 'Profil pribadi Anda telah diperbarui.', 'success');
+        }
+
+        function updateAuthUI() {
+            const navAuthSlot = document.getElementById('nav-auth-slot');
+            const mobileAuthSlot = document.getElementById('mobile-auth-slot');
+            const frontAnnBtn = document.getElementById('frontend-announcement-btn');
+            const frontHwBtn = document.getElementById('frontend-homework-btn');
+
+            if (currentUser) {
+                navAuthSlot.innerHTML = `
+                    <button onclick="toggleUserDropdown()" class="flex items-center space-x-2.5 px-3 py-2 rounded-xl glass hover:bg-slate-200/60 dark:hover:bg-slate-800 transition">
+                        <img src="${currentUser.avatar}" class="w-8 h-8 rounded-full object-cover shadow-sm">
+                        <span class="text-xs font-bold">${currentUser.name}</span>
+                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                    </button>
+                    <div id="user-dropdown-menu" class="absolute right-0 mt-2 w-56 discord-modal rounded-2xl shadow-2xl border border-[#2b2d31] hidden py-2 z-50 text-xs font-semibold">
+                        <div class="px-4 py-2 border-b border-[#2b2d31] mb-1">
+                            <p class="font-bold text-white">${currentUser.name}</p>
+                            <p class="text-[10px] text-indigo-400">@${currentUser.username}</p>
+                            <p class="text-[10px] text-[#5865F2] uppercase mt-0.5">${currentUser.userRoleTitle || currentUser.role}</p>
+                            <p class="text-[11px] font-extrabold text-emerald-400 mt-1">Saldo: Rp ${(currentUser.saldo || 0).toLocaleString('id-ID')}</p>
+                        </div>
+                        <button onclick="toggleUserDropdown(); openProfileModal();" class="w-full text-left px-4 py-2.5 hover:bg-[#35373c] text-white flex items-center"><i class="fa-solid fa-user w-6 text-[#5865F2]"></i>Discord Profile & Dompet</button>
+                        <button onclick="toggleUserDropdown(); openEditProfileModal();" class="w-full text-left px-4 py-2.5 hover:bg-[#35373c] text-white flex items-center"><i class="fa-solid fa-pen-to-square w-6 text-[#5865F2]"></i>Edit Profil</button>
+                        ${currentUser.role === 'Administrator' ? `
+                            <button onclick="toggleUserDropdown(); switchView('backend');" class="w-full text-left px-4 py-2.5 hover:bg-emerald-500/15 text-emerald-400 flex items-center"><i class="fa-solid fa-shield-halved w-6"></i>Zyen Cyber Admin</button>
+                        ` : ''}
+                        <div class="border-t border-[#2b2d31] my-1"></div>
+                        <button onclick="toggleUserDropdown(); logout();" class="w-full text-left px-4 py-2.5 text-rose-400 hover:bg-rose-500/10 flex items-center"><i class="fa-solid fa-right-from-bracket w-6"></i>Keluar</button>
+                    </div>
+                `;
+
+                mobileAuthSlot.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 p-3 rounded-xl bg-slate-200/50 dark:bg-slate-800/50">
+                            <img src="${currentUser.avatar}" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <p class="text-xs font-bold">${currentUser.name}</p>
+                                <p class="text-[10px] text-indigo-400">@${currentUser.username}</p>
+                                <p class="text-[10px] text-brand-600 uppercase font-semibold">${currentUser.userRoleTitle || currentUser.role}</p>
+                                <p class="text-xs font-extrabold text-emerald-500">Rp ${(currentUser.saldo || 0).toLocaleString('id-ID')}</p>
+                            </div>
+                        </div>
+                        <button onclick="toggleMobileMenu(); openProfileModal();" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 text-xs font-semibold flex items-center"><i class="fa-solid fa-user w-6 text-brand-500"></i>Discord Profile & Dompet</button>
+                        <button onclick="toggleMobileMenu(); openEditProfileModal();" class="w-full text-left px-4 py-2.5 rounded-xl hover:bg-slate-200/60 dark:hover:bg-slate-800 text-xs font-semibold flex items-center"><i class="fa-solid fa-pen-to-square w-6 text-brand-500"></i>Edit Profil</button>
+                        ${currentUser.role === 'Administrator' ? `
+                            <button onclick="toggleMobileMenu(); switchView('backend');" class="w-full text-left px-4 py-2.5 rounded-xl bg-emerald-500/20 text-emerald-300 text-xs font-semibold flex items-center"><i class="fa-solid fa-shield-halved w-6"></i>Zyen Cyber Admin</button>
+                        ` : ''}
+                        <button onclick="toggleMobileMenu(); logout();" class="w-full text-left px-4 py-2.5 rounded-xl bg-rose-500/10 text-rose-600 text-xs font-semibold flex items-center"><i class="fa-solid fa-right-from-bracket w-6"></i>Keluar</button>
+                    </div>
+                `;
+
+                if (currentUser.role === 'Administrator') {
+                    frontAnnBtn.classList.remove('hidden');
+                    frontHwBtn.classList.remove('hidden');
+                } else {
+                    frontAnnBtn.classList.add('hidden');
+                    frontHwBtn.classList.add('hidden');
+                }
+            } else {
+                navAuthSlot.innerHTML = `
+                    <button onclick="openLoginModal()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-semibold text-sm shadow-md hover:from-brand-700 hover:to-indigo-700 transition transform hover:-translate-y-0.5 flex items-center">
+                        <i class="fa-solid fa-right-to-bracket mr-2 text-xs"></i>Login
+                    </button>
+                `;
+                mobileAuthSlot.innerHTML = `
+                    <button onclick="openLoginModal()" class="w-full py-3 rounded-xl bg-brand-600 text-white font-semibold text-sm shadow flex items-center justify-center">
+                        <i class="fa-solid fa-right-to-bracket mr-2"></i>Login Portal / Akun
+                    </button>
+                `;
+                frontAnnBtn.classList.add('hidden');
+                frontHwBtn.classList.add('hidden');
+            }
+            renderAnnouncements();
+            renderHomework();
+            renderStudents();
+            if (currentActiveView === 'backend') {
+                renderBackendManagement();
+            }
+        }
+
+        function openAddStudentModal() {
+            document.getElementById('edit-student-index').value = -1;
+            document.getElementById('modal-student-name').value = '';
+            document.getElementById('modal-student-username').value = '';
+            document.getElementById('modal-student-password').value = '123456';
+            document.getElementById('modal-student-role').value = 'Siswa / Anggota';
+            document.getElementById('student-modal-title').innerHTML = '<i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i>Tambah Anggota / Akun Baru';
+            document.getElementById('student-modal').classList.remove('hidden');
+        }
+
+        function openEditStudentModal(index) {
+            const stu = studentsData[index];
+            document.getElementById('edit-student-index').value = index;
+            document.getElementById('modal-student-name').value = stu.name;
+            document.getElementById('modal-student-username').value = stu.username;
+            document.getElementById('modal-student-password').value = stu.password || '123';
+            document.getElementById('modal-student-role').value = stu.role;
+            document.getElementById('student-modal-title').innerHTML = '<i class="fa-solid fa-user-pen text-emerald-400 mr-2"></i>Edit Role & Akun Anggota';
+            document.getElementById('student-modal').classList.remove('hidden');
+        }
+
+        function closeStudentModal() {
+            document.getElementById('student-modal').classList.add('hidden');
+        }
+
+        function submitStudentForm(e) {
+            e.preventDefault();
+            const index = parseInt(document.getElementById('edit-student-index').value);
+            const name = document.getElementById('modal-student-name').value;
+            const username = document.getElementById('modal-student-username').value.trim().toLowerCase();
+            const password = document.getElementById('modal-student-password').value.trim();
+            const role = document.getElementById('modal-student-role').value;
+            const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            const avatar = `https://placehold.co/150x150/6366f1/ffffff?text=${initials}`;
+
+            if (index === -1) {
+                studentsData.push({ username, password, name, role, avatar, saldo: 50000, pin: '', pinEnabled: false, banner: 'animated-banner-1', frame: 'none', bio: 'Anggota baru kelas XII C.', status: 'Semangat belajar!', ig: 'https://instagram.com', wa: 'https://whatsapp.com', discord: 'https://discord.com' });
+                showToast('Sukses', `Akun baru ${name} (${role}) berhasil ditambahkan dan dapat langsung digunakan untuk login.`, 'success');
+            } else {
+                studentsData[index].name = name;
+                studentsData[index].username = username;
+                studentsData[index].password = password;
+                studentsData[index].role = role;
+                studentsData[index].avatar = avatar;
+                showToast('Sukses', `Data akun ${name} diperbarui.`, 'success');
+            }
+
+            closeStudentModal();
+            renderStudents();
+            renderBackendManagement();
+        }
+
+        function deleteStudent(index) {
+            if (studentsData[index].username === 'zyen') {
+                return showToast('Ditolak', 'Master Admin Zyen tidak dapat dihapus!', 'error');
+            }
+            const removed = studentsData.splice(index, 1);
+            renderStudents();
+            renderBackendManagement();
+            showToast('Dihapus', `Akun ${removed[0].name} berhasil dihapus dari sistem.`, 'success');
+        }
+
+        function openAddAnnouncementModal() {
+            document.getElementById('announcement-modal').classList.remove('hidden');
+        }
+        function closeAddAnnouncementModal() {
+            document.getElementById('announcement-modal').classList.add('hidden');
+        }
+        function submitAnnouncement(e) {
+            e.preventDefault();
+            const title = document.getElementById('new-ann-title').value;
+            const tag = document.getElementById('new-ann-tag').value;
+            const desc = document.getElementById('new-ann-desc').value;
+
+            announcementsData.unshift({
+                id: Date.now(),
+                title, tag, date: 'Hari ini', desc
+            });
+            renderAnnouncements();
+            if (currentActiveView === 'backend') renderBackendManagement();
+            closeAddAnnouncementModal();
+            showToast('Sukses Backend', 'Pengumuman baru berhasil dipublikasikan!', 'success');
+        }
+        function deleteAnnouncement(id) {
+            announcementsData = announcementsData.filter(a => a.id !== id);
+            renderAnnouncements();
+            if (currentActiveView === 'backend') renderBackendManagement();
+            showToast('Dihapus', 'Pengumuman berhasil dihapus dari database.', 'success');
+        }
+
+        function openAddHomeworkModal() {
+            document.getElementById('homework-modal').classList.remove('hidden');
+        }
+        function closeAddHomeworkModal() {
+            document.getElementById('homework-modal').classList.add('hidden');
+        }
+        function submitHomework(e) {
+            e.preventDefault();
+            const subject = document.getElementById('new-hw-subject').value;
+            const title = document.getElementById('new-hw-title').value;
+            const deadline = document.getElementById('new-hw-deadline').value;
+
+            homeworkData.unshift({
+                id: Date.now(),
+                subject, title, deadline, status: 'Pending'
+            });
+            renderHomework();
+            if (currentActiveView === 'backend') renderBackendManagement();
+            closeAddHomeworkModal();
+            showToast('Sukses Backend', 'Tugas baru berhasil disimpan!', 'success');
+        }
+        function deleteHomework(id) {
+            homeworkData = homeworkData.filter(h => h.id !== id);
+            renderHomework();
+            if (currentActiveView === 'backend') renderBackendManagement();
+            showToast('Dihapus', 'Tugas berhasil dihapus dari database.', 'success');
+        }
+
+        function showToast(title, message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const titleEl = document.getElementById('toast-title');
+            const msgEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+            if (type === 'error') {
+                iconEl.className = 'fa-solid fa-circle-exclamation text-rose-500 text-xl';
+            } else {
+                iconEl.className = 'fa-solid fa-circle-check text-emerald-500 text-xl';
+            }
+
+            toast.classList.remove('translate-y-28', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-28', 'opacity-0');
+            }, 3500);
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                icon.className = 'fa-solid fa-moon text-slate-700 text-sm';
+            } else {
+                html.classList.add('dark');
+                icon.className = 'fa-solid fa-sun text-yellow-400 text-sm';
+            }
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        window.onload = function() {
+            init3D();
+            updateAuthUI();
+            switchDay('Senin');
+            renderStudents();
+        };
+
+</script>
+
+</body>
+</html><script>
+/* =========================================================
+   XII C - RAILWAY API CONNECTOR
+   GANTI URL DI BAWAH DENGAN URL SERVICE RAILWAY LU.
+========================================================= */
+const XII_C_API = window.XII_C_API_URL || 'https://YOUR-RAILWAY-SERVICE.up.railway.app';
+let XII_C_TOKEN = localStorage.getItem('xii_c_token') || '';
+
+async function apiFetch(path, options = {}) {
+    const headers = { 'Content-Type': 'application/json', ...(options.headers || {}) };
+    if (XII_C_TOKEN) headers.Authorization = `Bearer ${XII_C_TOKEN}`;
+    const res = await fetch(`${XII_C_API}${path}`, { ...options, headers });
+    let data = {};
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok) throw new Error(data.message || data.error || `HTTP ${res.status}`);
+    return data;
+}
+
+function setApiSession(token) {
+    XII_C_TOKEN = token || '';
+    if (token) localStorage.setItem('xii_c_token', token);
+    else localStorage.removeItem('xii_c_token');
+}
+
+function syncCurrentUser(user) {
+    if (!user) return;
+    currentUser = {
+        role:user.role, name:user.name, username:user.username, userRoleTitle:user.role,
+        bio:user.bio || '', status:user.status || '', avatar:user.avatar,
+        saldo:Number(user.saldo || 0), pin:'', pinEnabled:!!user.pinEnabled,
+        banner:user.banner || 'animated-banner-1', frame:user.frame || 'none'
+    };
+}
+
+async function loadBackendData() {
+    try {
+        const [students, announcements, homework] = await Promise.all([
+            apiFetch('/api/students'), apiFetch('/api/announcements'), apiFetch('/api/homework')
+        ]);
+        studentsData = students;
+        announcementsData = announcements;
+        homeworkData = homework;
+        if (XII_C_TOKEN) {
+            try { syncCurrentUser(await apiFetch('/api/me')); } catch (_) { setApiSession(''); currentUser = null; }
+        }
+        updateAuthUI();
+        switchDay('Senin');
+    } catch (err) {
+        console.error('Railway API:', err);
+        showToast('Backend belum terhubung', err.message, 'error');
+        updateAuthUI();
+    }
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value.trim().toLowerCase();
+    const password = document.getElementById('login-password').value.trim();
+    try {
+        const data = await apiFetch('/api/login', { method:'POST', body:JSON.stringify({username,password}) });
+        setApiSession(data.token);
+        if (data.requiresPin) {
+            pendingUserForPin = data.user;
+            closeLoginModal();
+            document.getElementById('login-pin-input').value = '';
+            document.getElementById('pin-modal').classList.remove('hidden');
+            return;
+        }
+        syncCurrentUser(data.user);
+        closeLoginModal();
+        updateAuthUI();
+        openProfileModal();
+        showToast('Login Berhasil', `Selamat datang kembali, ${data.user.name}!`, 'success');
+    } catch (err) { showToast('Login Gagal', err.message, 'error'); }
+}
+
+async function verifyPin(e) {
+    e.preventDefault();
+    const pin = document.getElementById('login-pin-input').value.trim();
+    try {
+        const data = await apiFetch('/api/login/verify-pin', { method:'POST', body:JSON.stringify({pin}) });
+        setApiSession(data.token);
+        pendingUserForPin = null;
+        document.getElementById('pin-modal').classList.add('hidden');
+        syncCurrentUser(data.user);
+        updateAuthUI();
+        openProfileModal();
+        showToast('Login Berhasil', `Selamat datang kembali, ${data.user.name}!`, 'success');
+    } catch (err) { showToast('PIN Salah', err.message, 'error'); }
+}
+
+async function handleRegister(e) {
+    e.preventDefault();
+    const name=document.getElementById('reg-name').value.trim();
+    const username=document.getElementById('reg-username').value.trim().toLowerCase();
+    const password=document.getElementById('reg-password').value.trim();
+    try {
+        const data=await apiFetch('/api/register',{method:'POST',body:JSON.stringify({name,username,password})});
+        setApiSession(data.token); syncCurrentUser(data.user);
+        closeRegisterModal(); updateAuthUI(); openProfileModal();
+        showToast('Pendaftaran Berhasil', `Akun ${name} berhasil dibuat.`, 'success');
+    } catch(err){ showToast('Pendaftaran Gagal',err.message,'error'); }
+}
+
+function logout() {
+    setApiSession(''); currentUser=null; pendingUserForPin=null;
+    if (currentActiveView === 'backend') currentActiveView='frontend';
+    updateAuthUI(); switchView('frontend');
+    showToast('Keluar', 'Anda telah keluar dari akun.', 'success');
+}
+
+async function submitDeposit() {
+    const inputVal=parseInt(document.getElementById('deposit-amount-input').value);
+    const amt=inputVal||tempDepositAmount;
+    if(!amt||amt<=0)return showToast('Nominal Salah','Masukkan jumlah deposit yang valid.','error');
+    try { const user=await apiFetch('/api/wallet/deposit',{method:'POST',body:JSON.stringify({amount:amt})}); syncCurrentUser(user); closeDepositModal(); openProfileModal(); renderStudents(); showToast('Deposit Berhasil!',`Saldo bertambah Rp ${amt.toLocaleString('id-ID')}.`,'success'); }
+    catch(err){showToast('Deposit Gagal',err.message,'error');}
+}
+
+async function submitTransfer(e) {
+    e.preventDefault();
+    const recipientUsername=document.getElementById('transfer-recipient').value;
+    const amount=parseInt(document.getElementById('transfer-amount').value);
+    if(!amount||amount<=0)return showToast('Nominal Salah','Masukkan nominal transfer yang valid.','error');
+    try { const data=await apiFetch('/api/wallet/transfer',{method:'POST',body:JSON.stringify({recipientUsername,amount})}); syncCurrentUser(data.user); await refreshStudentsOnly(); closeTransferModal(); openProfileModal(); showToast('Transfer Berhasil!',`Berhasil mentransfer Rp ${amount.toLocaleString('id-ID')}.`,'success'); }
+    catch(err){showToast('Transfer Gagal',err.message,'error');}
+}
+
+async function refreshStudentsOnly(){ studentsData=await apiFetch('/api/students'); renderStudents(); if(currentActiveView==='backend')renderBackendManagement(); }
+
+async function saveSecurityPin(e) {
+    e.preventDefault();
+    const pin=document.getElementById('new-security-pin').value.trim();
+    if(pin.length<4)return showToast('PIN Terlalu Pendek','PIN keamanan minimal harus 4 digit.','error');
+    try { const user=await apiFetch('/api/me/security-pin',{method:'PUT',body:JSON.stringify({pin})}); syncCurrentUser(user); closeSecurityModal(); openProfileModal(); showToast('Keamanan Diaktifkan','PIN 2FA berhasil disimpan.','success'); }
+    catch(err){showToast('Gagal Menyimpan PIN',err.message,'error');}
+}
+async function disableSecurityPin(){
+    try { const user=await apiFetch('/api/me/security-pin',{method:'PUT',body:JSON.stringify({pin:''})}); syncCurrentUser(user); closeSecurityModal(); openProfileModal(); showToast('Keamanan Dimatikan','PIN 2FA dinonaktifkan.','success'); }
+    catch(err){showToast('Gagal',err.message,'error');}
+}
+
+async function submitEditProfile(e){
+    e.preventDefault();
+    const payload={name:document.getElementById('edit-my-name').value.trim(),status:document.getElementById('edit-my-status').value.trim(),bio:document.getElementById('edit-my-bio').value.trim(),banner:currentUser.banner,frame:currentUser.frame};
+    try { const user=await apiFetch('/api/me/profile',{method:'PUT',body:JSON.stringify(payload)}); syncCurrentUser(user); closeEditProfileModal(); updateAuthUI(); openProfileModal(); showToast('Berhasil','Profil pribadi Anda telah diperbarui.','success'); }
+    catch(err){showToast('Gagal',err.message,'error');}
+}
+
+async function submitStudentForm(e){
+    e.preventDefault();
+    const index=parseInt(document.getElementById('edit-student-index').value);
+    const name=document.getElementById('modal-student-name').value.trim();
+    const username=document.getElementById('modal-student-username').value.trim().toLowerCase();
+    const password=document.getElementById('modal-student-password').value.trim();
+    const role=document.getElementById('modal-student-role').value;
+    try {
+        if(index===-1) await apiFetch('/api/students',{method:'POST',body:JSON.stringify({name,username,password,role})});
+        else {
+            const oldUsername=studentsData[index].username;
+            await apiFetch(`/api/students/${encodeURIComponent(oldUsername)}`,{method:'PUT',body:JSON.stringify({name,username,password,role})});
+        }
+        await refreshStudentsOnly(); closeStudentModal(); showToast('Sukses','Data akun berhasil disimpan ke MySQL.','success');
+    } catch(err){showToast('Gagal Menyimpan',err.message,'error');}
+}
+
+function openEditStudentModal(index){
+    const stu=studentsData[index];
+    document.getElementById('edit-student-index').value=index;
+    document.getElementById('modal-student-name').value=stu.name||'';
+    document.getElementById('modal-student-username').value=stu.username||'';
+    const pass=document.getElementById('modal-student-password'); pass.value=''; pass.placeholder='Kosongkan jika password tidak diubah'; pass.required=false;
+    document.getElementById('modal-student-role').value=stu.role||'Siswa / Anggota';
+    document.getElementById('student-modal-title').innerHTML='<i class="fa-solid fa-user-pen text-emerald-400 mr-2"></i>Edit Role & Akun Anggota';
+    document.getElementById('student-modal').classList.remove('hidden');
+}
+function openAddStudentModal(){
+    document.getElementById('edit-student-index').value=-1;
+    document.getElementById('modal-student-name').value=''; document.getElementById('modal-student-username').value='';
+    const pass=document.getElementById('modal-student-password'); pass.value='123456'; pass.placeholder='Atur password login...'; pass.required=true;
+    document.getElementById('modal-student-role').value='Siswa / Anggota';
+    document.getElementById('student-modal-title').innerHTML='<i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i>Tambah Anggota / Akun Baru';
+    document.getElementById('student-modal').classList.remove('hidden');
+}
+
+async function deleteStudent(index){
+    const stu=studentsData[index]; if(!stu)return;
+    if(stu.username==='zyen')return showToast('Ditolak','Master Admin Zyen tidak dapat dihapus!','error');
+    try { await apiFetch(`/api/students/${encodeURIComponent(stu.username)}`,{method:'DELETE'}); await refreshStudentsOnly(); showToast('Dihapus',`Akun ${stu.name} berhasil dihapus dari MySQL.`,'success'); }
+    catch(err){showToast('Gagal Menghapus',err.message,'error');}
+}
+
+async function submitAnnouncement(e){
+    e.preventDefault();
+    const payload={title:document.getElementById('new-ann-title').value.trim(),tag:document.getElementById('new-ann-tag').value.trim(),desc:document.getElementById('new-ann-desc').value.trim()};
+    try { await apiFetch('/api/announcements',{method:'POST',body:JSON.stringify(payload)}); announcementsData=await apiFetch('/api/announcements'); renderAnnouncements(); renderBackendManagement(); closeAddAnnouncementModal(); showToast('Sukses Backend','Pengumuman tersimpan di MySQL.','success'); }
+    catch(err){showToast('Gagal',err.message,'error');}
+}
+async function deleteAnnouncement(id){try{await apiFetch(`/api/announcements/${id}`,{method:'DELETE'});announcementsData=await apiFetch('/api/announcements');renderAnnouncements();renderBackendManagement();showToast('Dihapus','Pengumuman dihapus dari MySQL.','success');}catch(err){showToast('Gagal',err.message,'error');}}
+
+async function submitHomework(e){
+    e.preventDefault();
+    const payload={subject:document.getElementById('new-hw-subject').value.trim(),title:document.getElementById('new-hw-title').value.trim(),deadline:document.getElementById('new-hw-deadline').value.trim()};
+    try { await apiFetch('/api/homework',{method:'POST',body:JSON.stringify(payload)}); homeworkData=await apiFetch('/api/homework'); renderHomework(); renderBackendManagement(); closeAddHomeworkModal(); showToast('Sukses Backend','Tugas tersimpan di MySQL.','success'); }
+    catch(err){showToast('Gagal',err.message,'error');}
+}
+async function deleteHomework(id){try{await apiFetch(`/api/homework/${id}`,{method:'DELETE'});homeworkData=await apiFetch('/api/homework');renderHomework();renderBackendManagement();showToast('Dihapus','Tugas dihapus dari MySQL.','success');}catch(err){showToast('Gagal',err.message,'error');}}
+
+async function buyMerch(itemName,price){
+    if(!currentUser){showToast('Login Diperlukan','Silakan login terlebih dahulu.','error');return openLoginModal();}
+    try {const user=await apiFetch('/api/wallet/purchase',{method:'POST',body:JSON.stringify({amount:price,description:itemName})});syncCurrentUser(user);updateAuthUI();showToast('Pembelian Berhasil!',`Berhasil membeli ${itemName}.`,'success');}catch(err){showToast('Pembelian Gagal',err.message,'error');}
+}
+async function buyBoostItem(type,price){
+    if(!currentUser){showToast('Login Diperlukan','Silakan login terlebih dahulu.','error');return openLoginModal();}
+    try {const user=await apiFetch('/api/wallet/purchase',{method:'POST',body:JSON.stringify({amount:price,description:type==='banner'?'Cosmic Purple Banner':'Cosmic Frame'})});syncCurrentUser(user);if(type==='banner')currentUser.banner='animated-banner-2';else currentUser.frame='cosmic';await apiFetch('/api/me/profile',{method:'PUT',body:JSON.stringify({name:currentUser.name,status:currentUser.status,bio:currentUser.bio,banner:currentUser.banner,frame:currentUser.frame})});updateAuthUI();openProfileModal();showToast('Boost Berhasil!','Item profil berhasil dibeli.','success');}catch(err){showToast('Gagal',err.message,'error');}
+}
+
+function changeProfileBanner(val){currentUser.banner=val;document.getElementById('profile-banner').className=`h-32 w-full ${val} relative`;}
+function changeProfileFrame(val){currentUser.frame=val;const f=document.getElementById('profile-avatar-frame');if(f)f.className=`absolute -inset-1 rounded-full pointer-events-none ${val==='cosmic'?'frame-cosmic':val==='neon'?'frame-neon':val==='cyber'?'frame-cyber':''}`;}
+
+function renderBackendManagement(){
+    const stat=document.getElementById('be-stat-students'); if(stat)stat.textContent=studentsData.length;
+    const saldo=document.getElementById('be-stat-saldo'); if(saldo)saldo.textContent='Rp '+studentsData.reduce((a,c)=>a+Number(c.saldo||0),0).toLocaleString('id-ID');
+    const tableBody=document.getElementById('admin-students-table');
+    if(tableBody)tableBody.innerHTML=studentsData.map((stu,index)=>`<tr class="border-b border-emerald-500/20 hover:bg-emerald-500/10 transition"><td class="py-3 px-4 flex items-center space-x-3"><img src="${stu.avatar||''}" class="w-9 h-9 rounded-xl object-cover shadow-sm border border-emerald-500"><div><span class="font-bold text-white block">${stu.name||''}</span><span class="text-[10px] text-emerald-300/80 font-mono">@${stu.username}</span></div></td><td class="py-3 px-4 font-mono text-xs text-emerald-300">${stu.username}</td><td class="py-3 px-4 text-xs text-white">${stu.role}</td><td class="py-3 px-4 text-xs text-emerald-300">Rp ${Number(stu.saldo||0).toLocaleString('id-ID')}</td><td class="py-3 px-4 text-right"><button onclick="openEditStudentModal(${index})" class="text-amber-300 mr-3 text-xs font-semibold">Edit</button><button onclick="deleteStudent(${index})" class="text-rose-400 text-xs font-semibold">Hapus</button></td></tr>`).join('');
+}
+
+window.onload = async function(){
+    init3D();
+    await loadBackendData();
+    switchDay('Senin');
+    renderStudents();
+};
+</script>

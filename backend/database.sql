@@ -1,0 +1,50 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  role VARCHAR(50) DEFAULT 'Pengunjung',
+  saldo DECIMAL(12,2) NOT NULL DEFAULT 50000.00,
+  bio TEXT,
+  status VARCHAR(255),
+  avatar VARCHAR(500),
+  banner VARCHAR(50) DEFAULT 'animated-banner-1',
+  frame VARCHAR(50) DEFAULT 'none',
+  pin_hash VARCHAR(255) DEFAULT NULL,
+  pin_enabled TINYINT(1) DEFAULT 0,
+  ig VARCHAR(500),
+  wa VARCHAR(500),
+  discord VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS announcements (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  tag VARCHAR(100) NOT NULL,
+  date_label VARCHAR(100) NOT NULL,
+  description TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS homework (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  subject VARCHAR(150) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  deadline VARCHAR(150) NOT NULL,
+  status VARCHAR(50) NOT NULL DEFAULT 'Pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS wallet_transactions (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  from_username VARCHAR(50),
+  to_username VARCHAR(50),
+  amount DECIMAL(12,2) NOT NULL,
+  type VARCHAR(30) NOT NULL,
+  description VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_wallet_from (from_username),
+  INDEX idx_wallet_to (to_username)
+);
